@@ -25,7 +25,6 @@ import helpers.DBMissingException;
 import helpers.MagicStrings;
 import model.ModelBase;
 
-
 public class GenericDataService<T extends ModelBase> implements IGenericDataSerivce<T> {
 
 	private List<T> businessTypeList;
@@ -35,17 +34,13 @@ public class GenericDataService<T extends ModelBase> implements IGenericDataSeri
 		this.dbPath = Paths.get(type.getName() + ".db");
 	}
 
-
 	@Override
 	public List<T> getAll() throws DBMissingException, DBException {
 		if (this.businessTypeList == null) {
 			try {
-				if (Files.exists(this.dbPath)) {
-					ObjectInputStream stream = new ObjectInputStream(Files.newInputStream(this.dbPath));
-					this.businessTypeList = (List<T>) stream.readObject();
-				} else {
-					throw new DBMissingException();
-				}
+				checkDB();
+				ObjectInputStream stream = new ObjectInputStream(Files.newInputStream(this.dbPath));
+				this.businessTypeList = (List<T>) stream.readObject();
 			} catch (EOFException e) {
 				throw new DBException(MagicStrings.DBEOFFailure, e);
 			} catch (ClassNotFoundException e) {
@@ -57,13 +52,11 @@ public class GenericDataService<T extends ModelBase> implements IGenericDataSeri
 		return this.businessTypeList;
 	}
 
-
 	@Override
 	public T get(int id) throws NoSuchElementException, DBMissingException, DBException {
 		List<T> entityList = this.getAll();
 		return entityList.stream().filter(e -> e.getId() == id).findFirst().get();
 	}
-
 
 	@Override
 	public void add(T entity) throws DBMissingException, DBException {
@@ -73,7 +66,6 @@ public class GenericDataService<T extends ModelBase> implements IGenericDataSeri
 			writeDB();
 		}
 	}
-
 
 	@Override
 	public void remove(T entity) throws DBMissingException, DBException {
@@ -87,15 +79,21 @@ public class GenericDataService<T extends ModelBase> implements IGenericDataSeri
 	private void writeDB() throws DBMissingException, DBException {
 		if (this.businessTypeList != null) {
 			try {
-
-				if (Files.exists(this.dbPath)) {
-					ObjectOutputStream stream = new ObjectOutputStream(Files.newOutputStream(this.dbPath));
-					stream.writeObject(this.businessTypeList);
-				} else {
-					throw new DBMissingException();
-				}
+				checkDB();
+				ObjectOutputStream stream = new ObjectOutputStream(Files.newOutputStream(this.dbPath));
+				stream.writeObject(this.businessTypeList);
 			} catch (IOException e) {
 				throw new DBException(MagicStrings.DBWriteError, e);
+			}
+		}
+	}
+
+	private void checkDB() throws DBMissingException {
+		if (!Files.exists(this.dbPath)) {
+			try {
+				Files.createFile(this.dbPath);
+			} catch (IOException e) {
+				throw new DBMissingException();
 			}
 		}
 	}
