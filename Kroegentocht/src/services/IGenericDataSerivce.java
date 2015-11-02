@@ -6,7 +6,7 @@
  * @Purpose: Interface voor GeneriekeDataService
  */
 
-package application;
+package services;
 
 import java.util.List;
 import java.util.NoSuchElementException;
