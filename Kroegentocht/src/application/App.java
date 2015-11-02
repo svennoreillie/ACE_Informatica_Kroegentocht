@@ -8,11 +8,11 @@
 
 package application;
 
-
+import view.Main;
 
 public class App {
 	public static void main(String[] args) throws Exception {
-	
-
+		Main mainView =new Main();
+		mainView.Show();
 	}
 }
