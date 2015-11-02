@@ -41,8 +41,6 @@ public class StreamGenerator<T extends ModelBase> {
 			return stream;
 		} catch (EOFException e) {
 			throw new DBException(MagicStrings.DBEOFFailure, e);
-		} catch (ClassNotFoundException e) {
-			throw new DBException(MagicStrings.DBClassFailure, e);
 		} catch (IOException e) {
 			throw new DBException(MagicStrings.DBReadError, e);
 		}

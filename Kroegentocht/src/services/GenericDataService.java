@@ -23,11 +23,12 @@ import java.util.*;
 import helpers.DBException;
 import helpers.DBMissingException;
 import helpers.MagicStrings;
+import model.Address;
 import model.ModelBase;
 
 public class GenericDataService<T extends ModelBase> implements IGenericDataSerivce<T> {
 
-	private List<T> businessTypeList;
+	private List<T> internalList;
 	private final Class<T> type;
 	
 	public GenericDataService(Class<T> type) {
@@ -36,17 +37,17 @@ public class GenericDataService<T extends ModelBase> implements IGenericDataSeri
 
 	@Override
 	public List<T> getAll() throws DBMissingException, DBException {
-		if (this.businessTypeList == null) {
+		if (this.internalList == null) {
 			try {
-				StreamGenerator g = new StreamGenerator<>(this.type);
+				StreamGenerator<T> g = new StreamGenerator<T>(this.type);
 				ObjectInputStream stream = g.getInputStream();
 				
-				this.businessTypeList = (List<T>)stream.readObject();
+				this.internalList = (List<T>)stream.readObject();
 			} catch (ClassNotFoundException | IOException e) {
 				throw new DBException(MagicStrings.DBClassFailure, e);
 			} 
 		}
-		return this.businessTypeList;
+		return this.internalList;
 	}
 
 	@Override
@@ -74,25 +75,17 @@ public class GenericDataService<T extends ModelBase> implements IGenericDataSeri
 	}
 
 	private void writeDB() throws DBMissingException, DBException {
-		if (this.businessTypeList != null) {
+		if (this.internalList != null) {
 			try {
-				checkDB();
-				ObjectOutputStream stream = new ObjectOutputStream(Files.newOutputStream(this.dbPath));
-				stream.writeObject(this.businessTypeList);
+				StreamGenerator<T> g = new StreamGenerator<T>(this.type);
+				ObjectOutputStream stream = g.getOutputStream();
+				
+				stream.writeObject(this.internalList);
 			} catch (IOException e) {
 				throw new DBException(MagicStrings.DBWriteError, e);
 			}
 		}
 	}
 
-	private void checkDB() throws DBMissingException {
-		if (!Files.exists(this.dbPath)) {
-			try {
-				Files.createFile(this.dbPath);
-			} catch (IOException e) {
-				throw new DBMissingException();
-			}
-		}
-	}
 
 }
