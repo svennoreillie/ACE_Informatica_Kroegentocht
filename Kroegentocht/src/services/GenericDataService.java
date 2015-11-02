@@ -8,7 +8,7 @@
  * 			de database files
  */
 
-package application;
+package services;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -28,26 +28,23 @@ import model.ModelBase;
 public class GenericDataService<T extends ModelBase> implements IGenericDataSerivce<T> {
 
 	private List<T> businessTypeList;
-	private final Path dbPath;
-
+	private final Class<T> type;
+	
 	public GenericDataService(Class<T> type) {
-		this.dbPath = Paths.get(type.getName() + ".db");
+		this.type = type;
 	}
 
 	@Override
 	public List<T> getAll() throws DBMissingException, DBException {
 		if (this.businessTypeList == null) {
 			try {
-				checkDB();
-				ObjectInputStream stream = new ObjectInputStream(Files.newInputStream(this.dbPath));
-				this.businessTypeList = (List<T>) stream.readObject();
-			} catch (EOFException e) {
-				throw new DBException(MagicStrings.DBEOFFailure, e);
-			} catch (ClassNotFoundException e) {
+				StreamGenerator g = new StreamGenerator<>(this.type);
+				ObjectInputStream stream = g.getInputStream();
+				
+				this.businessTypeList = (List<T>)stream.readObject();
+			} catch (ClassNotFoundException | IOException e) {
 				throw new DBException(MagicStrings.DBClassFailure, e);
-			} catch (IOException e) {
-				throw new DBException(MagicStrings.DBReadError, e);
-			}
+			} 
 		}
 		return this.businessTypeList;
 	}
