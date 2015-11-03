@@ -17,12 +17,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.google.inject.Singleton;
+
 import helpers.DBException;
 import helpers.DBMissingException;
 import helpers.MagicStrings;
 import model.ModelBase;
 
-public class StreamGenerator<T extends ModelBase> {
+@Singleton
+public class StreamGenerator<T extends ModelBase> implements StreamGeneratorService<T> {
 
 	private final Path dbPath;
 
@@ -34,6 +37,7 @@ public class StreamGenerator<T extends ModelBase> {
 		return this.dbPath;
 	}
 
+	@Override
 	public ObjectInputStream getInputStream() throws DBMissingException, DBException {
 		try {
 			checkDB();
@@ -46,6 +50,7 @@ public class StreamGenerator<T extends ModelBase> {
 		}
 	}
 
+	@Override
 	public ObjectOutputStream getOutputStream() throws DBMissingException, DBException {
 		try {
 			checkDB();
