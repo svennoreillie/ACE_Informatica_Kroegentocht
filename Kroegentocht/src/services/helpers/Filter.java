@@ -8,37 +8,39 @@
 
 package services.helpers;
 
-import java.util.GregorianCalendar;
-
+import java.util.Calendar;
 import model.TypeOfBusiness;
 
 public class Filter {
-	
+
 	private TypeOfBusiness businessType;
-	private GregorianCalendar startDate;
-	private GregorianCalendar endDate;
-	
-	
+	private Calendar startDate;
+	private Calendar endDate;
+
 	public TypeOfBusiness getBusinessType() {
 		return businessType;
 	}
+
 	public void setBusinessType(TypeOfBusiness businessType) {
 		this.businessType = businessType;
 	}
-	public GregorianCalendar getStartDate() {
+
+	public Calendar getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(GregorianCalendar startDate) {
-		this.startDate = startDate;
+
+	public void setStartDate(Calendar calendar) {
+		this.startDate = calendar;
 	}
-	public GregorianCalendar getEndDate() {
+
+	public Calendar getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(GregorianCalendar endDate) {
+
+	public void setEndDate(Calendar endDate) {
 		this.endDate = endDate;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -48,6 +50,7 @@ public class Filter {
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,7 +77,5 @@ public class Filter {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }
