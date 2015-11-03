@@ -20,6 +20,8 @@ import javax.swing.JButton;
 
 import com.toedter.calendar.JDateChooser;
 
+import helpers.DBException;
+import helpers.DBMissingException;
 import model.TypeOfBusiness;
 import services.DataAnalyseService;
 import services.helpers.Filter;
@@ -31,6 +33,8 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Analyse extends JFrame {
 
@@ -40,6 +44,10 @@ public class Analyse extends JFrame {
 	private JComboBox<TypeOfBusiness> comboBox;
 	private JDateChooser startDatePicker;
 	private JDateChooser eindDatePicker;
+	private JLabel lblTotalMinutes;
+	private JLabel lblAverageMinutes;
+	private JLabel lblTotalConsumptions;
+	private JLabel lblLongestVisit;
 
 	@Inject
 	public Analyse(DataAnalyseService analyseService) {
@@ -93,26 +101,26 @@ public class Analyse extends JFrame {
 		JLabel lblTotaal = new JLabel("Totaal minuten");
 		panel_right.add(lblTotaal, "1, 1, left, center");
 		
-		JLabel lblTotalMinutes = new JLabel("0 minutes");
-		panel_right.add(lblTotalMinutes, "3, 1, left, center");
+		this.lblTotalMinutes = new JLabel("0 minutes");
+		panel_right.add(this.lblTotalMinutes, "3, 1, left, center");
 		
 		JLabel lblTotaalConsumpties = new JLabel("Gemiddelde minuten");
 		panel_right.add(lblTotaalConsumpties, "1, 3, left, center");
 		
-		JLabel lblAverageMinutes = new JLabel("0 minutes");
-		panel_right.add(lblAverageMinutes, "3, 3, left, center");
+		this.lblAverageMinutes = new JLabel("0 minutes");
+		panel_right.add(this.lblAverageMinutes, "3, 3, left, center");
 		
 		JLabel lblTotaal_1 = new JLabel("Totaal consumpties");
 		panel_right.add(lblTotaal_1, "1, 5, left, center");
 		
-		JLabel lblTotalConsumptions = new JLabel("0 drinks");
-		panel_right.add(lblTotalConsumptions, "3, 5, left, center");
+		this.lblTotalConsumptions = new JLabel("0 drinks");
+		panel_right.add(this.lblTotalConsumptions, "3, 5, left, center");
 		
 		JLabel lblLangsteBezoek = new JLabel("Langste bezoek");
 		panel_right.add(lblLangsteBezoek, "1, 7, left, center");
 		
-		JLabel lblLongestVisit = new JLabel("0 minuten");
-		panel_right.add(lblLongestVisit, "3, 7, left, center");
+		this.lblLongestVisit = new JLabel("0 minuten");
+		panel_right.add(this.lblLongestVisit, "3, 7, left, center");
 		
 
 		
@@ -154,6 +162,11 @@ public class Analyse extends JFrame {
 		panel_left.add(lblEinddatum, gbc_lblEinddatum);
 		
 		this.eindDatePicker = new JDateChooser();
+		eindDatePicker.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				CalcResult();
+			}
+		});
 		GridBagConstraints gbc_dateChooser_1 = new GridBagConstraints();
 		gbc_dateChooser_1.insets = new Insets(0, 0, 5, 0);
 		gbc_dateChooser_1.fill = GridBagConstraints.BOTH;
@@ -169,6 +182,11 @@ public class Analyse extends JFrame {
 		panel_left.add(lblTypeZaak, gbc_lblTypeZaak);
 		
 		this.comboBox = new JComboBox<TypeOfBusiness>();
+		comboBox.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				CalcResult();
+			}
+		});
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -177,24 +195,47 @@ public class Analyse extends JFrame {
 		panel_left.add(comboBox, gbc_comboBox);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClearFilter();
+			}
+		});
 		GridBagConstraints gbc_btnClear = new GridBagConstraints();
 		gbc_btnClear.gridx = 0;
 		gbc_btnClear.gridy = 7;
 		panel_left.add(btnClear, gbc_btnClear);
 	}
 	
+	protected void ClearFilter() {
+		this.comboBox.setSelectedIndex(-1);
+		this.startDatePicker.setCalendar(null);
+		this.eindDatePicker.setCalendar(null);
+	}
+
 	public void Show() {
 		setVisible(true);
 	}
 	
 	private void CalcResult() {
-		//Create filter
-		Filter f = new Filter();
-		f.setBusinessType((TypeOfBusiness)this.comboBox.getSelectedItem());
-		f.setStartDate(this.startDatePicker.getCalendar());
-		f.setEndDate(this.eindDatePicker.getCalendar());
+		try {
+			//Create filter
+			Filter f = new Filter();
+			f.setBusinessType((TypeOfBusiness)this.comboBox.getSelectedItem());
+			f.setStartDate(this.startDatePicker.getCalendar());
+			f.setEndDate(this.eindDatePicker.getCalendar());
 		
-		
+			this.lblLongestVisit.setText(String.format("%i minuten", this.analyseService.getLongestVisit(f)));
+			this.lblAverageMinutes.setText(String.format("%i minuten", this.analyseService.getAverageMinutes(f)));
+			this.lblTotalConsumptions.setText(String.format("%i minuten", this.analyseService.getTotalConsumptions(f)));
+			this.lblTotalMinutes.setText(String.format("%i minuten", this.analyseService.getTotalMinutes(f)));
+			
+		} catch (DBMissingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
