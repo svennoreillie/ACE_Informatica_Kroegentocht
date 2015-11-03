@@ -12,14 +12,14 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import helpers.AppInjector;
-import view.Main;
+import view.MainWindow;
 
 public class App {
 	public static void main(String[] args) throws Exception {
 		 Injector injector = Guice.createInjector(new AppInjector());        
 
 		
-		Main mainView =new Main();
+		MainWindow mainView =new MainWindow();
 		mainView.Show();
 	}
 
