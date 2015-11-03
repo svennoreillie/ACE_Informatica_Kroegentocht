@@ -12,6 +12,7 @@ import java.util.Calendar;
 
 public class Visit extends ModelBase {
 
+	private static final long serialVersionUID = 1L;
 	private Establishment Establishment;
 	private Calendar Date;
 	private int AmountOfConsumptions;
