@@ -8,12 +8,12 @@
 
 package model;
 
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 public class Visit extends ModelBase {
 
 	private Establishment Establishment;
-	private GregorianCalendar Date;
+	private Calendar Date;
 	private int AmountOfConsumptions;
 	private int DurationMinutes;
 	
@@ -23,10 +23,10 @@ public class Visit extends ModelBase {
 	public void setEstablishment(Establishment establishment) {
 		Establishment = establishment;
 	}
-	public GregorianCalendar getDate() {
+	public Calendar getDate() {
 		return Date;
 	}
-	public void setDate(GregorianCalendar date) {
+	public void setDate(Calendar date) {
 		Date = date;
 	}
 	public int getAmountOfConsumptions() {
