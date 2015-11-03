@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="Datepicker/jgoodies-common-1.2.0.jar"/>
 	<classpathentry kind="lib" path="Datepicker/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="Log4J/log4j-api-2.4.1.jar"/>
+	<classpathentry kind="lib" path="Log4J/log4j-core-2.4.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
