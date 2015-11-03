@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 03/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: View voor analyse, bevat filter en labels met resultaten
+ */
+
 package view;
 
 import java.awt.BorderLayout;
