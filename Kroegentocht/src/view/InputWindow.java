@@ -6,17 +6,17 @@ import javax.swing.JFrame;
 
 public class InputWindow {
 
-	private JFrame frame;
+	private JFrame frmRegistartionWindow;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void OpenNewScreen() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					InputWindow window = new InputWindow();
-					window.frame.setVisible(true);
+					window.frmRegistartionWindow.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -35,9 +35,10 @@ public class InputWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmRegistartionWindow = new JFrame();
+		frmRegistartionWindow.setTitle("Registartion");
+		frmRegistartionWindow.setBounds(100, 100, 450, 300);
+		frmRegistartionWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 
