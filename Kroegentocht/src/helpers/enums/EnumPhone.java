@@ -3,7 +3,7 @@
  * @Team: Team13
  * @Date: 03/11/2015
  * @Project: KroegenTocht
- * @Purpose: Enum of phone numbers exclusive prefix and country code, to be used in factories to inisiate objects
+ * @Purpose: Enum of phone numbers exclusive prefix and country code, to be used in factories to initiate objects
  */
 
 package helpers.enums;

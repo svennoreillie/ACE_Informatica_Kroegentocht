@@ -3,7 +3,7 @@
  * @Team: Team13
  * @Date: 03/11/2015
  * @Project: KroegenTocht
- * @Purpose: Enum of city's, to be used in factories to inisiate objects
+ * @Purpose: Enum of city's, to be used in factories to initiate objects
  */
 
 package helpers.enums;
