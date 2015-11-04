@@ -33,7 +33,7 @@ public class StreamGenerator<T extends ModelBase> implements StreamGeneratorServ
 
 	@Inject
 	public StreamGenerator(ClassWrapperService<T> typeService) {
-		this.dbPath = Paths.get(typeService.getClass().getName() + ".db");
+		this.dbPath = Paths.get(typeService.getModelClass().getName() + ".db");
 	}
 
 	public Path getDbPath() {
@@ -41,13 +41,13 @@ public class StreamGenerator<T extends ModelBase> implements StreamGeneratorServ
 	}
 
 	@Override
-	public ObjectInputStream getInputStream() throws DBMissingException, DBException {
+	public ObjectInputStream getInputStream() throws EOFException, DBException, DBMissingException {
 		try {
 			checkDB();
 			ObjectInputStream stream = new ObjectInputStream(Files.newInputStream(this.dbPath));
 			return stream;
 		} catch (EOFException e) {
-			throw new DBException(MagicStrings.DBEOFFailure, e);
+			throw e;
 		} catch (IOException e) {
 			throw new DBException(MagicStrings.DBReadError, e);
 		}

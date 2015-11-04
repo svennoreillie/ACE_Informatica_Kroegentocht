@@ -234,10 +234,10 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService {
 			f.setStartDate(this.startDatePicker.getCalendar());
 			f.setEndDate(this.eindDatePicker.getCalendar());
 		
-			this.lblLongestVisit.setText(String.format("%i minuten", this.analyseService.getLongestVisit(f)));
-			this.lblAverageMinutes.setText(String.format("%i minuten", this.analyseService.getAverageMinutes(f)));
-			this.lblTotalConsumptions.setText(String.format("%i minuten", this.analyseService.getTotalConsumptions(f)));
-			this.lblTotalMinutes.setText(String.format("%i minuten", this.analyseService.getTotalMinutes(f)));
+			this.lblLongestVisit.setText(String.format("%d minuten", this.analyseService.getLongestVisit(f)));
+			this.lblAverageMinutes.setText(String.format("%d minuten", this.analyseService.getAverageMinutes(f)));
+			this.lblTotalConsumptions.setText(String.format("%d minuten", this.analyseService.getTotalConsumptions(f)));
+			this.lblTotalMinutes.setText(String.format("%d minuten", this.analyseService.getTotalMinutes(f)));
 			
 		} catch (DBMissingException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
