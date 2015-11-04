@@ -45,4 +45,8 @@ public class TypeOfBusiness extends ModelBase {
 		return true;
 	}
 	
+	@Override
+	public String toString(){
+		return this.Type;
+	}
 }

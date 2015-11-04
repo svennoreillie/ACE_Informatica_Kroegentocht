@@ -1,3 +1,11 @@
+/**
+ * @Autor: Peter Vervoort
+ * @Team: Team13
+ * @Date: 03/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Main Window of GUI, used to naviagte towards input and/or analyse windows
+ */
+
 package view;
 
 import java.awt.EventQueue;
@@ -63,6 +71,13 @@ public class MainWindow {
 		
 		
 		JButton btnAnalyse = new JButton("Analyse registered visits");
+		btnAnalyse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//AnalyseWindow analysewindow = new AnalyseWindow();
+				// TODO create constructor and use it here
+				// TODO create OpenNewscreen() method en use it here
+			}
+		});
 		btnAnalyse.setBounds(121, 128, 175, 100);
 		frmRegistartionWindow.getContentPane().add(btnAnalyse);
 	}
