@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import com.google.inject.Inject;
 import com.toedter.calendar.JDateChooser;
 
 import model.TypeOfBusiness;
@@ -22,7 +24,7 @@ import model.TypeOfBusiness;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class InputWindow extends JFrame {
+public class InputWindow extends JFrame implements InputWindowService {
 
 	/**
 	 * 
@@ -38,7 +40,7 @@ public class InputWindow extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public void OpenNewScreen() {
+	public void Show() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -51,9 +53,7 @@ public class InputWindow extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	@Inject
 	public InputWindow() {
 		initialize();
 		//TODO fill cmbType with all options
@@ -66,7 +66,6 @@ public class InputWindow extends JFrame {
 		frmRegistartionWindow = new JFrame();
 		frmRegistartionWindow.setTitle("Registartion");
 		frmRegistartionWindow.setBounds(100, 100, 450, 300);
-		frmRegistartionWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmRegistartionWindow.getContentPane().setLayout(null);
 		
 		JLabel lblInputDate = new JLabel("Date of visit");

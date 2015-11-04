@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 
 import org.apache.logging.log4j.Logger;
 
+import com.google.inject.Inject;
+
 import helpers.InjectLogger;
 
 import java.awt.BorderLayout;
@@ -27,69 +29,65 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MainWindow {
+public class MainWindow extends JFrame implements MainWindowService {
 
 	
 	@InjectLogger Logger logger;
+	private InputWindowService inputWindow;
+	private AnalyseWindowService analyseWindow;
 	
-	private JFrame frmRegistartionWindow;
-
-	/**
-	 * Create the application.
-	 */
-	public MainWindow() {
+	@Inject
+	public MainWindow(InputWindowService inputWindow, AnalyseWindowService analyseWindow) { 
+		this.inputWindow = inputWindow;
+		this.analyseWindow = analyseWindow;
+		
 		initialize();
 	}
 	
 	public void Show() {
 		
 		logger.debug("Show method called");
+		setVisible(true);
 		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow();
-					window.frmRegistartionWindow.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmRegistartionWindow = new JFrame();
-		frmRegistartionWindow.setTitle("Main Window");
-		frmRegistartionWindow.setBounds(100, 100, 450, 300);
-		frmRegistartionWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmRegistartionWindow.getContentPane().setLayout(null);
+		setTitle("Main Window");
+		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
 		
 		JButton btnRegister = new JButton("Registration new visit");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				InputWindow inputWindow = new InputWindow();
-				inputWindow.OpenNewScreen();
+				OpenInput();
 			}
 		});
 		btnRegister.setBounds(121, 13, 175, 100);
-		frmRegistartionWindow.getContentPane().add(btnRegister);
+		getContentPane().add(btnRegister);
 		
 		
-		
-		
+
 		JButton btnAnalyse = new JButton("Analyse registered visits");
 		btnAnalyse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//AnalyseWindow analysewindow = new AnalyseWindow();
-				// TODO create constructor and use it here
-				// TODO create OpenNewscreen() method en use it here
+				OpenAnalyse();
 			}
 		});
 		btnAnalyse.setBounds(121, 128, 175, 100);
-		frmRegistartionWindow.getContentPane().add(btnAnalyse);
+		getContentPane().add(btnAnalyse);
 	}
 
+	
+	public void OpenInput() {
+		this.inputWindow.Show();
+	}
+	
+	public void OpenAnalyse() {
+		this.analyseWindow.Show();
+	}
+	
 }

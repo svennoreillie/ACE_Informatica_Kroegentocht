@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import helpers.AppInjector;
 import helpers.InjectLogger;
 import view.AnalyseWindow;
 import view.MainWindow;

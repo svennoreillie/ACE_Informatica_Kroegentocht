@@ -48,7 +48,7 @@ import java.awt.event.ActionEvent;
 import org.apache.logging.log4j.Logger; 
 import org.apache.logging.log4j.LogManager;
 
-public class AnalyseWindow extends JFrame {
+public class AnalyseWindow extends JFrame implements AnalyseWindowService {
 	
 	static Logger log = LogManager.getLogger(AnalyseWindow.class.getName());
 
@@ -72,7 +72,6 @@ public class AnalyseWindow extends JFrame {
 	}
 
 	private void init() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setResizable(true);
 		
@@ -88,27 +87,23 @@ public class AnalyseWindow extends JFrame {
 		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(3.0);
+		splitPane.setResizeWeight(1.0);
 		contentPane.add(splitPane);
 		
 		JPanel panel_right = new JPanel();
 		panel_right.setBorder(new EmptyBorder(10, 10, 10, 10));
 		splitPane.setRightComponent(panel_right);
 		panel_right.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("130px:grow"),
+				ColumnSpec.decode("default:grow"),
 				ColumnSpec.decode("15px"),
-				ColumnSpec.decode("64px:grow"),},
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
 				RowSpec.decode("default:grow"),}));
 		
 		
@@ -245,12 +240,12 @@ public class AnalyseWindow extends JFrame {
 			this.lblTotalMinutes.setText(String.format("%i minuten", this.analyseService.getTotalMinutes(f)));
 			
 		} catch (DBMissingException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", ERROR);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			log.error(e.getMessage()); 
 			log.error(e.getStackTrace());
 			
 		} catch (DBException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", ERROR);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			log.error(e.getMessage()); 
 			log.error(e.getStackTrace());
 		}
