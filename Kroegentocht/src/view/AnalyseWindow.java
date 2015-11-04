@@ -36,7 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Analyse extends JFrame {
+public class AnalyseWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -50,7 +50,7 @@ public class Analyse extends JFrame {
 	private JLabel lblLongestVisit;
 
 	@Inject
-	public Analyse(DataAnalyseService analyseService) {
+	public AnalyseWindow(DataAnalyseService analyseService) {
 		super("Analyse");
 		init();
 		
