@@ -33,7 +33,7 @@ public class InputWindow extends JFrame {
 	private JTextField textDuration;
 	private JTextField textField;
 	private JComboBox<TypeOfBusiness> cmbType;
-	private 
+	 
 
 	/**
 	 * Launch the application.
@@ -130,8 +130,7 @@ public class InputWindow extends JFrame {
 
 			private void clearWindow() {
 				// TODO Auto-generated method stub
-				this.cmbType.setSelectedIndex(-1);
-				this.
+				//this.cmbType.setSelectedIndex(-1);
 			}
 		});
 		btnClear.setBounds(323, 181, 97, 25);

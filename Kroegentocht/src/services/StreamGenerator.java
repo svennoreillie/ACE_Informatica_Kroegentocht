@@ -17,20 +17,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import helpers.DBException;
 import helpers.DBMissingException;
 import helpers.MagicStrings;
 import model.ModelBase;
+import services.classwrappers.ClassWrapperService;
 
 @Singleton
 public class StreamGenerator<T extends ModelBase> implements StreamGeneratorService<T> {
 
 	private final Path dbPath;
 
-	public StreamGenerator(Class<T> type) {
-		this.dbPath = Paths.get(type.getName() + ".db");
+	@Inject
+	public StreamGenerator(ClassWrapperService<T> typeService) {
+		this.dbPath = Paths.get(typeService.getClass().getName() + ".db");
 	}
 
 	public Path getDbPath() {

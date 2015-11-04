@@ -18,6 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.Logger;
+
+import helpers.InjectLogger;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -25,6 +29,9 @@ import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
+	
+	@InjectLogger Logger logger;
+	
 	private JFrame frmRegistartionWindow;
 
 	/**
@@ -35,6 +42,9 @@ public class MainWindow {
 	}
 	
 	public void Show() {
+		
+		logger.debug("Show method called");
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
