@@ -15,7 +15,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import helpers.AppInjector;
-import view.Analyse;
+import view.AnalyseWindow;
 import view.MainWindow;
 
 public class App {

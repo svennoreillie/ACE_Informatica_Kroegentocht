@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 03/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: View voor analyse, bevat filter en labels met resultaten
+ */
+
 package view;
 
 import java.awt.BorderLayout;
@@ -10,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JSplitPane;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
@@ -36,7 +45,12 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
+
 public class AnalyseWindow extends JFrame {
+	
+	static Logger log = LogManager.getLogger(AnalyseWindow.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -216,6 +230,7 @@ public class AnalyseWindow extends JFrame {
 		setVisible(true);
 	}
 	
+	
 	private void CalcResult() {
 		try {
 			//Create filter
@@ -230,11 +245,14 @@ public class AnalyseWindow extends JFrame {
 			this.lblTotalMinutes.setText(String.format("%i minuten", this.analyseService.getTotalMinutes(f)));
 			
 		} catch (DBMissingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", ERROR);
+			log.error(e.getMessage()); 
+			log.error(e.getStackTrace());
+			
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", ERROR);
+			log.error(e.getMessage()); 
+			log.error(e.getStackTrace());
 		}
 	}
 
