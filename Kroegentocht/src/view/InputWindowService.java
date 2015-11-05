@@ -1,5 +1,7 @@
 package view;
 
-public interface InputWindowService extends WindowService  {
-	
+public interface InputWindowService {
+
+	void Show();
+
 }
