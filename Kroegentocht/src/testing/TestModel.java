@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 05/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: test model voor in unit tests de streamgenerator te kunnen testen
+ */
+
 package testing;
 
 import model.ModelBase;

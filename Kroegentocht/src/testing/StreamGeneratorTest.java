@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 05/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Unit test voor StreamGenerator
+ */
+
 package testing;
 
 import static org.junit.Assert.*;

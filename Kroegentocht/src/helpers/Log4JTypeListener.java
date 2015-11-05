@@ -1,3 +1,12 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 05/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Helper klasse voor logger te kunnen injecteren, 
+ * zoekt alle fields van geregistreerde klasses af op @InjectLogger interface en van type Logger om deze vervolgens op te vullen 
+ */
+
 package helpers;
 
 import java.lang.reflect.Field;
