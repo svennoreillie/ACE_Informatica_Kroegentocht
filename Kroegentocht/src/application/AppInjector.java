@@ -33,9 +33,7 @@ public class AppInjector extends AbstractModule {
     	bindListener(Matchers.any(), new Log4JTypeListener());
     	
     	
-    	//bind(WindowService.class).to(MainWindowService.class);
     	bind(MainWindowService.class).to(MainWindow.class);
-    	bind(InputWindowService.class).to(InputWindow.class);
     	bind(AnalyseWindowService.class).to(AnalyseWindow.class);
     	
         bind(DataAnalyseService.class).to(DataAnalyse.class);
