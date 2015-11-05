@@ -8,6 +8,7 @@
 
 package view;
 
-public interface AnalyseWindowService extends WindowService {
+public interface InputVisitWindowService  extends WindowService {
+
 
 }

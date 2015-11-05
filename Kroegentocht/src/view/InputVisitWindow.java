@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class InputVisitWindow extends JFrame {
+public class InputVisitWindow extends JFrame implements InputVisitWindowService {
 
 	/**
 	 * 
@@ -36,39 +36,22 @@ public class InputVisitWindow extends JFrame {
 	private JTextField textConsumption;
 	private JComboBox<Establishment> cmbEstablishment;
 	private JDateChooser dpDate;
-	private GenericDataService<Establishment> dataEstablishmentService; 
+	private GenericDataService<Establishment> dataEstablishmentService;
+	private InputEstablismentWindowService inputEstablishmentWindow; 
 
 	@Inject
-	public InputVisitWindow(GenericDataService <Establishment> dataEstablishment) throws Exception {	
+	public InputVisitWindow(GenericDataService<Establishment> dataEstablishment
+			, InputEstablismentWindowService inputEstablishmentWindow) throws Exception {	
 		this.dataEstablishmentService = dataEstablishment;
+		this.inputEstablishmentWindow = inputEstablishmentWindow;
 		initialize();
 	}
 
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void OpenNewScreen() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InputVisitWindow window = new InputVisitWindow();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void Show() {
+		this.setVisible(true);
 	}
 
-	/**
-	 * Create the application.
-	 * @throws Exception 
-	 */
-	public InputVisitWindow() throws Exception   {
-		initialize();
-		
-	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -77,7 +60,6 @@ public class InputVisitWindow extends JFrame {
 	private void initialize() throws Exception {
 		setTitle("Registartion");
 		setBounds(100, 100, 450, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JLabel lblInputDate = new JLabel("Date of visit");
@@ -173,15 +155,7 @@ public class InputVisitWindow extends JFrame {
 		JButton btnAddEstablishment = new JButton("Add Establishment");
 		btnAddEstablishment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				@SuppressWarnings("unused")
-				InputEstablishmentWindow inputEstablishment = null;
-				try {
-					inputEstablishment = new InputEstablishmentWindow();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				InputEstablishmentWindow.OpenNewScreen();
+				inputEstablishmentWindow.Show();
 			}
 		});
 		btnAddEstablishment.setBounds(214, 215, 206, 25);

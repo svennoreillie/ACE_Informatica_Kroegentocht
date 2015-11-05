@@ -27,16 +27,19 @@ import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame implements MainWindowService {
 
-	
-
 	private static final long serialVersionUID = 1L;
 	@InjectLogger Logger logger;
-	private InputWindowService inputWindow;
-	private AnalyseWindowService analyseWindow;
+	private WindowService analyseWindow;
+	private InputVisitWindowService inputVisitWindow;
+	private InputEstablismentWindowService inputEstablishmentWindow;
+	
 	
 	@Inject
-	public MainWindow(InputWindowService inputWindow, AnalyseWindowService analyseWindow) throws Exception { 
-		this.inputWindow = inputWindow;
+	public MainWindow(InputVisitWindowService inputVisitWindow
+			, InputEstablismentWindowService inputEstablishmentWindow
+			, AnalyseWindowService analyseWindow) throws Exception { 
+		this.inputVisitWindow = inputVisitWindow;
+		this.inputEstablishmentWindow = inputEstablishmentWindow;
 		this.analyseWindow = analyseWindow;
 		initialize();
 	}
@@ -66,12 +69,8 @@ public class MainWindow extends JFrame implements MainWindowService {
 		JButton btnRegister = new JButton("Registration new visit");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					InputVisitWindow.OpenNewScreen();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				logger.info("Showing visit input window");
+				inputVisitWindow.Show();
 			}
 		});
 
@@ -82,7 +81,8 @@ public class MainWindow extends JFrame implements MainWindowService {
 		JButton btnAnalyse = new JButton("Analyse registered visits");
 		btnAnalyse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO create OpenNewscreen() method in AnalyseWindow en use it here
+				logger.info("Showing analys window");
+				analyseWindow.Show();
 			}
 		});
 
@@ -92,13 +92,8 @@ public class MainWindow extends JFrame implements MainWindowService {
 		JButton btnAddEstablishment = new JButton("Add an establishment");
 		btnAddEstablishment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					InputEstablishmentWindow.OpenNewScreen();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
+				logger.info("Showing establishment input window");
+				inputEstablishmentWindow.Show();
 			}
 		});
 		btnAddEstablishment.setBounds(121, 183, 170, 70);
@@ -106,15 +101,5 @@ public class MainWindow extends JFrame implements MainWindowService {
 
 		btnAnalyse.setBounds(121, 128, 175, 100);
 		getContentPane().add(btnAnalyse);
-	}
-
-
-	
-	public void OpenInput() {
-		this.inputWindow.Show();
-	}
-	
-	public void OpenAnalyse() {
-		this.analyseWindow.Show();
 	}
 }

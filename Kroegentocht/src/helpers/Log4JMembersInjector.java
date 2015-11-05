@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 05/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Zet Logger  instantie op een logger field van geinjecteerde klasses als voldoet aan voorwaarden
+ */
+
 package helpers;
 
 import java.lang.reflect.Field;

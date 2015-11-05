@@ -2,3 +2,6 @@
 /target/
 /kroegentocht.log
 /services.classwrappers.VisitClassWrapper.db
+/model.Establishment.db
+/model.TypeOfBusiness.db
+/model.Visit.db
