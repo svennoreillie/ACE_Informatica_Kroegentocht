@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 
 import java.util.*;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import helpers.DBException;
@@ -27,25 +28,28 @@ import helpers.DBMissingException;
 import helpers.MagicStrings;
 import model.Address;
 import model.ModelBase;
+import services.classwrappers.ClassWrapperService;
 
 @Singleton
 public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 
 	private List<T> internalList;
-	private final Class<T> type;
+	private StreamGeneratorService<T> streamService;
 	
-	public GenericData(Class<T> type) {
-		this.type = type;
+	@Inject
+	public GenericData(StreamGeneratorService<T> streamService) {
+		this.streamService = streamService;
 	}
 
 	@Override
 	public List<T> getAll() throws DBMissingException, DBException {
 		if (this.internalList == null) {
+			this.internalList = new ArrayList<T>();
 			try {
-				StreamGeneratorService<T> g = new StreamGenerator<T>(this.type);
-				ObjectInputStream stream = g.getInputStream();
-				
-				this.internalList = (List<T>)stream.readObject();
+				ObjectInputStream stream = this.streamService.getInputStream();
+				this.internalList.add((T)stream.readObject());
+			} catch (EOFException e) {
+				//end of file read => this is expected
 			} catch (ClassNotFoundException | IOException e) {
 				throw new DBException(MagicStrings.DBClassFailure, e);
 			} 
@@ -80,10 +84,11 @@ public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 	private void writeDB() throws DBMissingException, DBException {
 		if (this.internalList != null) {
 			try {
-				StreamGeneratorService<T> g = new StreamGenerator<T>(this.type);
-				ObjectOutputStream stream = g.getOutputStream();
+				ObjectOutputStream stream = this.streamService.getOutputStream();
 				
-				stream.writeObject(this.internalList);
+				for (T entity : this.internalList) {
+					stream.writeObject(entity);
+				}
 			} catch (IOException e) {
 				throw new DBException(MagicStrings.DBWriteError, e);
 			}

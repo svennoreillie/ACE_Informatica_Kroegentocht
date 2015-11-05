@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 03/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: View voor analyse, bevat filter en labels met resultaten
+ */
+
 package view;
 
 import java.awt.BorderLayout;
@@ -10,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JSplitPane;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
@@ -36,7 +45,12 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AnalyseWindow extends JFrame {
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
+
+public class AnalyseWindow extends JFrame implements AnalyseWindowService {
+	
+	static Logger log = LogManager.getLogger(AnalyseWindow.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -58,7 +72,6 @@ public class AnalyseWindow extends JFrame {
 	}
 
 	private void init() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setResizable(true);
 		
@@ -74,27 +87,23 @@ public class AnalyseWindow extends JFrame {
 		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(3.0);
+		splitPane.setResizeWeight(1.0);
 		contentPane.add(splitPane);
 		
 		JPanel panel_right = new JPanel();
 		panel_right.setBorder(new EmptyBorder(10, 10, 10, 10));
 		splitPane.setRightComponent(panel_right);
 		panel_right.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("130px:grow"),
+				ColumnSpec.decode("default:grow"),
 				ColumnSpec.decode("15px"),
-				ColumnSpec.decode("64px:grow"),},
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("16px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
 				RowSpec.decode("default:grow"),}));
 		
 		
@@ -216,6 +225,7 @@ public class AnalyseWindow extends JFrame {
 		setVisible(true);
 	}
 	
+	
 	private void CalcResult() {
 		try {
 			//Create filter
@@ -224,17 +234,20 @@ public class AnalyseWindow extends JFrame {
 			f.setStartDate(this.startDatePicker.getCalendar());
 			f.setEndDate(this.eindDatePicker.getCalendar());
 		
-			this.lblLongestVisit.setText(String.format("%i minuten", this.analyseService.getLongestVisit(f)));
-			this.lblAverageMinutes.setText(String.format("%i minuten", this.analyseService.getAverageMinutes(f)));
-			this.lblTotalConsumptions.setText(String.format("%i minuten", this.analyseService.getTotalConsumptions(f)));
-			this.lblTotalMinutes.setText(String.format("%i minuten", this.analyseService.getTotalMinutes(f)));
+			this.lblLongestVisit.setText(String.format("%d minuten", this.analyseService.getLongestVisit(f)));
+			this.lblAverageMinutes.setText(String.format("%d minuten", this.analyseService.getAverageMinutes(f)));
+			this.lblTotalConsumptions.setText(String.format("%d minuten", this.analyseService.getTotalConsumptions(f)));
+			this.lblTotalMinutes.setText(String.format("%d minuten", this.analyseService.getTotalMinutes(f)));
 			
 		} catch (DBMissingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			log.error(e.getMessage()); 
+			log.error(e.getStackTrace());
+			
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			log.error(e.getMessage()); 
+			log.error(e.getStackTrace());
 		}
 	}
 
