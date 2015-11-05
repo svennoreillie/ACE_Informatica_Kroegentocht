@@ -1,9 +1,10 @@
 package view;
 
+/*
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
-
+*/
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,15 +18,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import javax.swing.JButton;
-
 import com.toedter.calendar.JDateChooser;
-
 import helpers.DBException;
 import helpers.DBMissingException;
 import model.TypeOfBusiness;
 import services.DataAnalyseService;
 import services.helpers.Filter;
-
 import com.jgoodies.forms.layout.FormLayout;
 import com.google.inject.Inject;
 import com.jgoodies.forms.layout.ColumnSpec;
