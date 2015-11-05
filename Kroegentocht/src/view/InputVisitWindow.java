@@ -36,13 +36,12 @@ public class InputVisitWindow extends JFrame {
 	private JTextField textConsumption;
 	private JComboBox<Establishment> cmbEstablishment;
 	private JDateChooser dpDate;
-	private GenericDataService<Establishment> dataEstablishment; 
+	private GenericDataService<Establishment> dataEstablishmentService; 
 
 	@Inject
-	public InputVisitWindow(GenericDataService <Establishment> dataEstablishment) throws Exception {
-		super("DataServiceEstablishment");
+	public InputVisitWindow(GenericDataService <Establishment> dataEstablishment) throws Exception {	
+		this.dataEstablishmentService = dataEstablishment;
 		initialize();
-		this.dataEstablishment = dataEstablishment;
 	}
 
 	
@@ -93,7 +92,7 @@ public class InputVisitWindow extends JFrame {
 		cmbEstablishment.setBounds(12, 118, 175, 22);
 		getContentPane().add(cmbEstablishment);
 		try {
-			List <Establishment> typeList = dataEstablishment.getAll();
+			List <Establishment> typeList = dataEstablishmentService.getAll();
 			for (Establishment establishment : typeList) {
 			    cmbEstablishment.addItem(establishment);
 			}

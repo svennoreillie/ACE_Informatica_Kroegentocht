@@ -8,9 +8,7 @@
 
 package view;
 
-/*
-import model.Establishment;
-*/
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,12 +17,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import com.google.inject.Inject;
-
+import model.Address;
 import model.Establishment;
 import model.TypeOfBusiness;
-import services.DataAnalyseService;
 import services.GenericDataService;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -48,24 +44,16 @@ public class InputEstablishmentWindow extends JFrame {
 	private JTextField textEmail;
 	private JTextField textFax;
 	private JComboBox<TypeOfBusiness> cmbType;
-	private GenericDataService<TypeOfBusiness> dataTypeOfBusiness;
+	private GenericDataService<TypeOfBusiness> dataTypeOfBusinessService;
+	private GenericDataService<Establishment> dataEstablishmentService;
 	
-
 	@Inject
-	public InputEstablishmentWindow(GenericDataService <TypeOfBusiness> dataTypeOfBusiness) throws Exception {
-		super("DataServiceTypeOfBusiness");
+	public InputEstablishmentWindow(GenericDataService <TypeOfBusiness> dataTypeOfBusiness, GenericDataService <Establishment> dataEstablishment) throws Exception {
+		this.dataTypeOfBusinessService = dataTypeOfBusiness;
+		this.dataEstablishmentService = dataEstablishment;
 		initialize();
-		
-		this.dataTypeOfBusiness = dataTypeOfBusiness;
-		
-		//GenericDataService <TypeOfBusiness> dataTypeOfBusiness
-	}
-	/*@Inject
-	public InputVisitWindow(GenericDataService <Establishment> dataEstablishment) throws Exception {
-		super("DataServiceEstablishment");
-		initialize();
-		this.dataEstablishment = dataEstablishment;
-	}*/
+	}	
+
 	/**
 	 * Launch the application.
 	 */
@@ -107,12 +95,13 @@ public class InputEstablishmentWindow extends JFrame {
 		cmbType.setBounds(12, 42, 176, 22);
 		getContentPane().add(cmbType);
 		try {
-			List <TypeOfBusiness> typeList = dataTypeOfBusiness.getAll();
+			List <TypeOfBusiness> typeList = dataTypeOfBusinessService.getAll();
 			for (TypeOfBusiness typeOfBusiness : typeList) {
 				cmbType.addItem(typeOfBusiness);
 			}
 			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			throw e;
 		}
 		
@@ -233,6 +222,8 @@ public class InputEstablishmentWindow extends JFrame {
 		getContentPane().add(btnClear);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(306, 357, 176, 25);
+		getContentPane().add(btnSave);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
 				if(textStreet.getText()==null || 
@@ -244,12 +235,29 @@ public class InputEstablishmentWindow extends JFrame {
 					JOptionPane.showMessageDialog(null, "One or more of the requiered fields is not completed.\nThe establishment is not saved!");	
 				}
 				else{
-					//TODO
+					Establishment establishment = new Establishment();
+					Address address = new Address();
+					try{
+						establishment.setBusinessType((TypeOfBusiness)cmbType.getSelectedItem());
+						address.setStreet(textStreet.getText());
+						address.setNumber(textNumber.getText());
+						address.setBox(textBox.getText());
+						address.setZipCode(textZipCode.getText());
+						address.setCity(textCity.getText());
+						address.setPhone(textPhone.getText());
+						address.setMobilePhone(textMobile.getText());
+						address.setEmail(textEmail.getText());
+						address.setFax(textFax.getText());
+						establishment.setAddress(address);
+						dataEstablishmentService.add(establishment);
+					}
+					catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
-		});
-		btnSave.setBounds(306, 357, 176, 25);
-		getContentPane().add(btnSave);
+		});	
 	}
 
 	public JComboBox<TypeOfBusiness> getCmbType() {
