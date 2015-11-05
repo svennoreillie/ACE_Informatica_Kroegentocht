@@ -1,7 +1,5 @@
 package view;
 
-public interface AnalyseWindowService {
-
-	void Show();
+public interface AnalyseWindowService extends WindowService {
 
 }

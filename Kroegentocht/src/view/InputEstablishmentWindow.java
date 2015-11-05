@@ -27,7 +27,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class InputEstablishmentWindow extends JFrame {
+public class InputEstablishmentWindow extends JFrame implements InputEstablismentWindowService {
 
 	/**
 	 * 
@@ -48,36 +48,17 @@ public class InputEstablishmentWindow extends JFrame {
 	private GenericDataService<Establishment> dataEstablishmentService;
 	
 	@Inject
-	public InputEstablishmentWindow(GenericDataService <TypeOfBusiness> dataTypeOfBusiness, GenericDataService <Establishment> dataEstablishment) throws Exception {
+	public InputEstablishmentWindow(GenericDataService <TypeOfBusiness> dataTypeOfBusiness
+			, GenericDataService <Establishment> dataEstablishment) throws Exception {
 		this.dataTypeOfBusinessService = dataTypeOfBusiness;
 		this.dataEstablishmentService = dataEstablishment;
 		initialize();
 	}	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void OpenNewScreen() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InputEstablishmentWindow window = new InputEstablishmentWindow();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void Show() {
+		setVisible(true);
 	}
-
-	/**
-	 * Create the application.
-	 * @throws Exception 
-	 */
-	public InputEstablishmentWindow() throws Exception {
-		initialize();
-	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 * @throws Exception 
@@ -85,13 +66,13 @@ public class InputEstablishmentWindow extends JFrame {
 	private void initialize() throws Exception {
 		
 		setBounds(100, 100, 589, 505);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JLabel lblTypeOfBusiness = new JLabel("Type Of Business");
 		lblTypeOfBusiness.setBounds(12, 13, 176, 16);
 		getContentPane().add(lblTypeOfBusiness);
 		
+		cmbType = new JComboBox<TypeOfBusiness>();
 		cmbType.setBounds(12, 42, 176, 22);
 		getContentPane().add(cmbType);
 		try {

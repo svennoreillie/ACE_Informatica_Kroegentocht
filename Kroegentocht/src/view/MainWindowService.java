@@ -1,5 +1,5 @@
 package view;
 
-public interface MainWindowService {
+public interface MainWindowService  extends WindowService {
 
 }

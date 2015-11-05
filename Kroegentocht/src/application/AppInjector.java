@@ -35,7 +35,8 @@ public class AppInjector extends AbstractModule {
     	
     	bind(MainWindowService.class).to(MainWindow.class);
     	bind(AnalyseWindowService.class).to(AnalyseWindow.class);
-    	
+    	bind(InputEstablismentWindowService.class).to(InputEstablishmentWindow.class);
+    	bind(InputVisitWindowService.class).to(InputVisitWindow.class);
         bind(DataAnalyseService.class).to(DataAnalyse.class);
         
         bind(new TypeLiteral<ClassWrapperService<Visit>>(){}).to(VisitClassWrapper.class).asEagerSingleton();
