@@ -8,6 +8,7 @@
 
 package services;
 
+import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -17,7 +18,7 @@ import model.ModelBase;
 
 public interface StreamGeneratorService<T extends ModelBase> {
 
-	ObjectInputStream getInputStream() throws DBMissingException, DBException;
+	ObjectInputStream getInputStream() throws DBException, EOFException, DBMissingException;
 
 	ObjectOutputStream getOutputStream() throws DBMissingException, DBException;
 
