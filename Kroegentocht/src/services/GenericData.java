@@ -44,17 +44,25 @@ public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 	@Override
 	public List<T> getAll() throws DBMissingException, DBException {
 		if (this.internalList == null) {
-			this.internalList = new ArrayList<T>();
-			try {
-				ObjectInputStream stream = this.streamService.getInputStream();
-				this.internalList.add((T)stream.readObject());
-			} catch (EOFException e) {
-				//end of file read => this is expected
-			} catch (ClassNotFoundException | IOException e) {
-				throw new DBException(MagicStrings.DBClassFailure, e);
-			} 
+			this.internalList = getListFromStream(); 
 		}
 		return this.internalList;
+	}
+
+	public List<T> getListFromStream() throws DBException, DBMissingException {
+		List<T> list = new ArrayList<T>();
+		try {
+			ObjectInputStream stream = this.streamService.getInputStream();
+			while (true) {
+				list.add((T) stream.readObject());
+			} 
+		} catch (EOFException e) {
+			//end of file read => this is expected
+		} catch (ClassNotFoundException | IOException e) {
+			throw new DBException(MagicStrings.DBClassFailure, e);
+		}
+		
+		return list;
 	}
 
 	@Override
