@@ -11,22 +11,30 @@ import java.util.NoSuchElementException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
+import application.AppInjector;
 import helpers.DBException;
 import helpers.DBMissingException;
-import helpers.MagicStrings;
 import services.GenericData;
+import services.GenericDataService;
 import services.StreamGenerator;
+import services.events.DataChangedEventFiringSource;
 
 public class GenericDataTest {
 
 	private Path testModelPath = Paths.get("testing.TestModel.db");
-	private GenericData<TestModel> data = new GenericData<TestModel>(new StreamGenerator<TestModel>(new TestModelClassWrapper()));
+	private GenericData<TestModel> data = null;
 	private TestModel test = new TestModel();
 	private TestModel test2 = new TestModel();
+	
 	
 	@Before
 	public void setUp() throws Exception {
@@ -49,7 +57,10 @@ public class GenericDataTest {
 	
 	@Rule
     public ExpectedException thrown= ExpectedException.none();
-	
+
+	public GenericDataTest() {
+		this.data = new GenericData<TestModel>(new StreamGenerator<TestModel>(new TestModelClassWrapper()), new DataChangedEventFiringSource<TestModel>());
+	}
 	
 	
 	@Test

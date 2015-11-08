@@ -1,12 +1,12 @@
 /**
  * @Autor: Sven Noreillie
  * @Team: Team13
- * @Date: 02/11/2015
+ * @Date: 08/11/2015
  * @Project: KroegenTocht
- * @Purpose: Zet bindings voor de Dependency injection
+ * @Purpose: Zet test bindings voor de Dependency injection
  */
 
-package application;
+package testing;
  
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
@@ -26,43 +26,39 @@ import services.events.DataChangedEventFiringSource;
 import view.*;
 
  
-public class AppInjector extends AbstractModule {
+public class TestAppInjector extends AbstractModule {
  
 
     protected void configure() {
 
     	bindListener(Matchers.any(), new Log4JTypeListener());
-    	
-    	
+
     	bind(MainWindowService.class).to(MainWindow.class);
     	bind(AnalyseWindowService.class).to(AnalyseWindow.class);
     	bind(InputEstablismentWindowService.class).to(InputEstablishmentWindow.class);
     	bind(InputVisitWindowService.class).to(InputVisitWindow.class);
         bind(DataAnalyseService.class).to(DataAnalyse.class);
         
-        bind(new TypeLiteral<ClassWrapperService<Visit>>(){}).to(VisitClassWrapper.class).asEagerSingleton();
-        bind(new TypeLiteral<ClassWrapperService<Address>>(){}).to(AddressClassWrapper.class).asEagerSingleton();
+        bind(new TypeLiteral<ClassWrapperService<TestModel>>(){}).to(TestModelClassWrapper.class).asEagerSingleton();
+        bind(new TypeLiteral<GenericDataService<Visit>>(){}).to(TestDataService.class).asEagerSingleton();   
+        bind(new TypeLiteral<StreamGeneratorService<TestModel>>(){}).to(new TypeLiteral<StreamGenerator<TestModel>>(){}).asEagerSingleton();
+        bind(new TypeLiteral<DataChangedEventFiringService<TestModel>>(){}).to(new TypeLiteral<DataChangedEventFiringSource<TestModel>>(){}).asEagerSingleton();
+    
+    
+        
         bind(new TypeLiteral<ClassWrapperService<Establishment>>(){}).to(EstablishmentClassWrapper.class).asEagerSingleton();
         bind(new TypeLiteral<ClassWrapperService<TypeOfBusiness>>(){}).to(TypeOfBusinessClassWrapper.class).asEagerSingleton();
 
-        bind(new TypeLiteral<GenericDataService<Visit>>(){}).to(new TypeLiteral<GenericData<Visit>>(){}).asEagerSingleton();
-        bind(new TypeLiteral<GenericDataService<Address>>(){}).to(new TypeLiteral<GenericData<Address>>(){}).asEagerSingleton();
         bind(new TypeLiteral<GenericDataService<Establishment>>(){}).to(new TypeLiteral<GenericData<Establishment>>(){}).asEagerSingleton();
         bind(new TypeLiteral<GenericDataService<TypeOfBusiness>>(){}).to(new TypeLiteral<GenericData<TypeOfBusiness>>(){}).asEagerSingleton();
         
-        bind(new TypeLiteral<StreamGeneratorService<Visit>>(){}).to(new TypeLiteral<StreamGenerator<Visit>>(){}).asEagerSingleton();
-        bind(new TypeLiteral<StreamGeneratorService<Address>>(){}).to(new TypeLiteral<StreamGenerator<Address>>(){}).asEagerSingleton();
         bind(new TypeLiteral<StreamGeneratorService<Establishment>>(){}).to(new TypeLiteral<StreamGenerator<Establishment>>(){}).asEagerSingleton();
         bind(new TypeLiteral<StreamGeneratorService<TypeOfBusiness>>(){}).to(new TypeLiteral<StreamGenerator<TypeOfBusiness>>(){}).asEagerSingleton();
     
-        bind(new TypeLiteral<DataChangedEventFiringService<Visit>>(){}).to(new TypeLiteral<DataChangedEventFiringSource<Visit>>(){}).asEagerSingleton();
-        bind(new TypeLiteral<DataChangedEventFiringService<Address>>(){}).to(new TypeLiteral<DataChangedEventFiringSource<Address>>(){}).asEagerSingleton();
         bind(new TypeLiteral<DataChangedEventFiringService<Establishment>>(){}).to(new TypeLiteral<DataChangedEventFiringSource<Establishment>>(){}).asEagerSingleton();
         bind(new TypeLiteral<DataChangedEventFiringService<TypeOfBusiness>>(){}).to(new TypeLiteral<DataChangedEventFiringSource<TypeOfBusiness>>(){}).asEagerSingleton();
+    
     }
-
-
- 
 }
 
 
