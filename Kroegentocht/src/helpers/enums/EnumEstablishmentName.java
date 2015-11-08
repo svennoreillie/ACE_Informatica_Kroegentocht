@@ -2,12 +2,12 @@ package helpers.enums;
 
 public enum EnumEstablishmentName {
 	
-		FARRAO("Farrao"),
-		LOUVAINLOUVAIN("Louvain Louvain"),
-		BIJVETTIGEJAN("Bij Vettige Jan"),
-		DEWERELD("De wereld"),
-		DENUIVER("Den Uiver"),
-		ALLEE("Alee");
+		Farrao("Farrao"),
+		LouvainLouvain("Louvain Louvain"),
+		VettigeJan("Bij Vettige Jan"),
+		Wereld("De wereld"),
+		Uiver("Den Uiver"),
+		Alee("Alee");
 		
 		private String Name;
 		
