@@ -30,8 +30,11 @@ import javax.swing.JButton;
 import com.toedter.calendar.JDateChooser;
 import helpers.DBException;
 import helpers.DBMissingException;
+import model.ModelBase;
 import model.TypeOfBusiness;
+import model.Visit;
 import services.DataAnalyseService;
+import services.events.DataChangedEvent;
 import services.helpers.Filter;
 import com.jgoodies.forms.layout.FormLayout;
 import com.google.inject.Inject;
@@ -46,7 +49,7 @@ import java.awt.event.ActionEvent;
 import org.apache.logging.log4j.Logger; 
 import org.apache.logging.log4j.LogManager;
 
-public class AnalyseWindow extends JFrame implements AnalyseWindowService {
+public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataChangedEvent<Visit> {
 	
 	static Logger log = LogManager.getLogger(AnalyseWindow.class.getName());
 
@@ -246,6 +249,15 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			log.error(e.getMessage()); 
 			log.error(e.getStackTrace());
+		}
+	}
+
+
+	@Override
+	public void EntityAdded(Visit entity) {
+		//Refresh page if visible
+		if (this.isVisible()) {
+			this.CalcResult();
 		}
 	}
 

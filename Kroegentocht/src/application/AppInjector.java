@@ -21,7 +21,8 @@ import services.classwrappers.ClassWrapperService;
 import services.classwrappers.EstablishmentClassWrapper;
 import services.classwrappers.TypeOfBusinessClassWrapper;
 import services.classwrappers.VisitClassWrapper;
-
+import services.events.DataChangedEventFiringService;
+import services.events.DataChangedEventFiringSource;
 import view.*;
 
  
@@ -53,6 +54,8 @@ public class AppInjector extends AbstractModule {
         bind(new TypeLiteral<StreamGeneratorService<Address>>(){}).to(new TypeLiteral<StreamGenerator<Address>>(){}).asEagerSingleton();
         bind(new TypeLiteral<StreamGeneratorService<Establishment>>(){}).to(new TypeLiteral<StreamGenerator<Establishment>>(){}).asEagerSingleton();
         bind(new TypeLiteral<StreamGeneratorService<TypeOfBusiness>>(){}).to(new TypeLiteral<StreamGenerator<TypeOfBusiness>>(){}).asEagerSingleton();
+    
+        bind(DataChangedEventFiringService.class).to(DataChangedEventFiringSource.class);
     }
 
 
