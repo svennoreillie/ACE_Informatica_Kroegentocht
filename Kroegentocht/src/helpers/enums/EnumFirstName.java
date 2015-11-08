@@ -12,11 +12,10 @@ public enum EnumFirstName {
 	Jan("Jan"),
 	Piet("Piet"),
 	Paul("Paul"),
-	ELS("Els"),
-	JAN("Jan"),
-	AN("An"),
-	JEF("Jef"),
-	FIEN("Fien");
+	Els("Els"),
+	An("An"),
+	Jef("Jef"),
+	Fien("Fien");
 	
 	private String firstName;
 	

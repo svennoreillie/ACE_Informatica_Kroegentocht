@@ -42,13 +42,16 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 	private JComboBox<Establishment> cmbEstablishment;
 	private JDateChooser dpDate;
 	private GenericDataService<Establishment> dataEstablishmentService;
-	private InputEstablismentWindowService inputEstablishmentWindow; 
+	private InputEstablismentWindowService inputEstablishmentWindow;
+	private GenericDataService<Visit> dataVisit; 
 
 	@Inject
 	public InputVisitWindow(GenericDataService<Establishment> dataEstablishment
-			, InputEstablismentWindowService inputEstablishmentWindow) throws Exception {	
+			, InputEstablismentWindowService inputEstablishmentWindow
+			, GenericDataService<Visit> dataVisit) throws Exception {	
 		this.dataEstablishmentService = dataEstablishment;
 		this.inputEstablishmentWindow = inputEstablishmentWindow;
+		this.dataVisit = dataVisit;
 		initialize();
 	}
 	
@@ -57,6 +60,9 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		setVisible(true);
 	}
 
+	public void Hide() {
+		setVisible(false);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -107,7 +113,6 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
-			@SuppressWarnings("null")
 			public void actionPerformed(ActionEvent e) {
 				if(cmbEstablishment.getSelectedIndex() == -1 ||
 						dpDate.getDate() == null ||
@@ -126,9 +131,8 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 						visit.setDurationMinutes(Integer.parseInt(textDuration.getText()));
 						visit.setAmountOfConsumptions(Integer.parseInt(textConsumption.getText()));
 						visit.setEstablishment((Establishment)cmbEstablishment.getSelectedItem());
-						GenericDataService <Visit> datavisit = null;
 						try {
-							datavisit.add(visit);
+							dataVisit.add(visit);
 						} catch (DBMissingException e1) {	
 							e1.printStackTrace();
 						}
@@ -142,7 +146,7 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		btnSave.setBounds(214, 181, 97, 25);
 		getContentPane().add(btnSave);
 		
-		JDateChooser dpDate = new JDateChooser();
+		this.dpDate = new JDateChooser();
 		dpDate.setBounds(12, 42, 98, 30);
 		getContentPane().add(dpDate);
 		
