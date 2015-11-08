@@ -11,11 +11,14 @@ package services;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.logging.log4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import helpers.DBException;
 import helpers.DBMissingException;
+import helpers.InjectLogger;
 import model.Visit;
 import services.helpers.Filter;
 
@@ -24,9 +27,15 @@ public class DataAnalyse implements DataAnalyseService {
 
 	private GenericDataService<Visit> visitService;
 
+	@InjectLogger Logger logger;
+	
 	@Inject
 	public DataAnalyse(GenericDataService<Visit> visitService) {
 		this.visitService = visitService;
+	}
+	
+	public void Show() {
+		logger.debug("Show method called");
 	}
 
 	@Override

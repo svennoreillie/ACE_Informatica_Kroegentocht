@@ -17,11 +17,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.logging.log4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import helpers.DBException;
 import helpers.DBMissingException;
+import helpers.InjectLogger;
 import helpers.MagicStrings;
 import model.ModelBase;
 import services.classwrappers.ClassWrapperService;
@@ -31,11 +34,17 @@ public class StreamGenerator<T extends ModelBase> implements StreamGeneratorServ
 
 	private final Path dbPath;
 
+	@InjectLogger Logger logger;
+	
 	@Inject
 	public StreamGenerator(ClassWrapperService<T> typeService) {
 		this.dbPath = Paths.get(typeService.getModelClass().getName() + ".db");
 	}
 
+	public void Show() {
+		logger.debug("Show method called");
+	}
+	
 	public Path getDbPath() {
 		return this.dbPath;
 	}
