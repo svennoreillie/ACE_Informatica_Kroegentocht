@@ -97,20 +97,18 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		textOtherType.getDocument().addDocumentListener(new DocumentListener(){
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				cmbType.setSelectedIndex(-1);
-				cmbType.setEnabled(false);
+				clearCmbBox(false);
 			}
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				cmbType.setSelectedIndex(-1);
-				cmbType.setEnabled(true);
+				clearCmbBox(true);	
 			}
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				cmbType.setSelectedIndex(-1);
-				cmbType.setEnabled(false);
+				clearCmbBox(false);
 			}
 		});
+		
 		
 		
 		JLabel lblStreet = new JLabel("Street");
@@ -197,6 +195,16 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		JButton btnClear = new JButton("Clear All");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cmbType.setSelectedIndex(-1);
+				textOtherType.setText("");
+				textStreet.setText("");
+				textNumber.setText("");
+				textBox.setText("");
+				textCity.setText("");
+				textPhone.setText("");
+				textMobile.setText("");
+				textEmail.setText("");
+				textFax.setText("");
 			}
 		});
 		btnClear.setBounds(306, 307, 176, 25);
@@ -219,7 +227,12 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 					Establishment establishment = new Establishment();
 					Address address = new Address();
 					try{
-						establishment.setBusinessType((TypeOfBusiness)cmbType.getSelectedItem());
+						if(textOtherType.getText()== ""){
+							establishment.setBusinessType((TypeOfBusiness)cmbType.getSelectedItem());
+						}
+						else{
+							establishment.setBusinessType(new TypeOfBusiness (textOtherType.getText()));
+						}
 						address.setStreet(textStreet.getText());
 						address.setNumber(textNumber.getText());
 						address.setBox(textBox.getText());
@@ -231,6 +244,7 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 						address.setFax(textFax.getText());
 						establishment.setAddress(address);
 						dataEstablishmentService.add(establishment);
+						
 					}
 					catch (Exception e1) {
 						// TODO Auto-generated catch block
@@ -247,5 +261,10 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 
 	public void setCmbType(JComboBox<TypeOfBusiness> cmbType) {
 		this.cmbType = cmbType;
+	}
+	
+	private void clearCmbBox (boolean b){
+		cmbType.setSelectedIndex(-1);
+		cmbType.setEnabled(b);
 	}
 }

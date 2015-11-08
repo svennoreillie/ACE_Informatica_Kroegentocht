@@ -12,11 +12,8 @@ import java.io.Serializable;
 
 public class ModelBase implements Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -8546391373858034898L;
-	
 	private int id;
 	//Hold items are 'logically removed'
 	private Boolean hold;

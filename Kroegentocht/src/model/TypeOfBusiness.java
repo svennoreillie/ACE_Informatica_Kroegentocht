@@ -16,10 +16,16 @@ public class TypeOfBusiness extends ModelBase {
 	private static final long serialVersionUID = 8689410206194924971L;
 	private String Type;
 
+	public TypeOfBusiness (){}
+	
+	public TypeOfBusiness (String type){
+		setType(type);
+	}
+	
 	public String getType() {
 		return Type;
 	}
-
+	
 	public void setType(String type) {
 		Type = type;
 	}
