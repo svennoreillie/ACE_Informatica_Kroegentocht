@@ -47,7 +47,7 @@ public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 	@Inject
 	public GenericData(StreamGeneratorService<T> streamService, DataChangedEventFiringService<T> firingService) {
 		this.streamService = streamService;
-		this.dataEventFiringSource = new DataChangedEventFiringSource<T>();
+		this.dataEventFiringSource = firingService;
 	}
 
 	@Override

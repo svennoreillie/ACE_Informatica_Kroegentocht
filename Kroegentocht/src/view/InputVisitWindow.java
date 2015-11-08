@@ -81,7 +81,7 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		lblEstablishment.setBounds(12, 89, 175, 16);
 		getContentPane().add(lblEstablishment);
 		
-		JComboBox<Establishment> cmbEstablishment = new JComboBox<Establishment>();
+		this.cmbEstablishment = new JComboBox<Establishment>();
 		cmbEstablishment.setBounds(12, 118, 175, 22);
 		getContentPane().add(cmbEstablishment);
 		try {
