@@ -25,12 +25,15 @@ import helpers.InjectLogger;
 import model.Establishment;
 import model.Visit;
 import services.GenericDataService;
+import services.events.DataChangedEvent;
+import services.events.DataChangedEventFiringService;
+
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class InputVisitWindow extends JFrame implements InputVisitWindowService {
+public class InputVisitWindow extends JFrame implements InputVisitWindowService, DataChangedEvent<Establishment> {
 
 	/**
 	 * 
@@ -44,23 +47,28 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 	private GenericDataService<Establishment> dataEstablishmentService;
 	private InputEstablismentWindowService inputEstablishmentWindow;
 	private GenericDataService<Visit> dataVisit; 
+	private DataChangedEventFiringService<Establishment> establishmentChangedService;
 
 	@Inject
 	public InputVisitWindow(GenericDataService<Establishment> dataEstablishment
 			, InputEstablismentWindowService inputEstablishmentWindow
-			, GenericDataService<Visit> dataVisit) throws Exception {	
+			, GenericDataService<Visit> dataVisit,
+			DataChangedEventFiringService<Establishment> establishmentChangedService) throws Exception {	
 		this.dataEstablishmentService = dataEstablishment;
 		this.inputEstablishmentWindow = inputEstablishmentWindow;
 		this.dataVisit = dataVisit;
+		this.establishmentChangedService = establishmentChangedService;
 		initialize();
 	}
 	
 	public void Show() {
 		logger.debug("Show method called");
+		this.establishmentChangedService.addListener(this);
 		setVisible(true);
 	}
 
 	public void Hide() {
+		this.establishmentChangedService.removeListener(this);
 		setVisible(false);
 	}
 
@@ -69,7 +77,7 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 	 * @throws Exception 
 	 */
 	private void initialize() throws Exception {
-		setTitle("Registartion");
+		setTitle("Register Visit");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		
@@ -84,14 +92,7 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		this.cmbEstablishment = new JComboBox<Establishment>();
 		cmbEstablishment.setBounds(12, 118, 175, 22);
 		getContentPane().add(cmbEstablishment);
-		try {
-			List <Establishment> typeList = dataEstablishmentService.getAll();
-			for (Establishment establishment : typeList) {
-			    cmbEstablishment.addItem(establishment);
-			}
-		} catch (Exception e) {
-			throw e;
-		}
+		updateCmbType();
 		
 		JLabel lblTime = new JLabel("Duration of the visit in minutes");
 		lblTime.setBounds(220, 13, 187, 16);
@@ -176,6 +177,18 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		getContentPane().add(btnAddEstablishment);
 	}
 
+	private void updateCmbType() throws Exception {
+		try {
+			cmbEstablishment.removeAllItems();
+			List <Establishment> typeList = dataEstablishmentService.getAll();
+			for (Establishment establishment : typeList) {
+			    cmbEstablishment.addItem(establishment);
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 	public JComboBox<Establishment> getCmbType() {
 		return cmbEstablishment;
 	}
@@ -189,5 +202,15 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		textDuration.setText("");
 		textConsumption.setText("");
 		dpDate.setCalendar(null);
+	}
+
+	@Override
+	public void EntityAdded(Establishment entity) {
+		try {
+			this.updateCmbType();
+		} catch (Exception e) {
+			logger.debug("Show method called");
+			e.printStackTrace();
+		}
 	}
 }
