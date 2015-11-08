@@ -40,7 +40,7 @@ public class DataChangedEventFiringSource<T extends ModelBase> implements DataCh
     @Override
 	public void fireAdded(T model)
     {
-        if (_listeners != null && _listeners.isEmpty())
+        if (_listeners != null && !_listeners.isEmpty())
         {
             Enumeration<DataChangedEvent<T>> e = _listeners.elements();
             while (e.hasMoreElements())
