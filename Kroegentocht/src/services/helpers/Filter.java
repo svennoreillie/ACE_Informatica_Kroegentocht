@@ -13,18 +13,10 @@ import model.TypeOfBusiness;
 
 public class Filter {
 
-	private TypeOfBusiness businessType;
 	private Calendar startDate;
 	private Calendar endDate;
 
-	public TypeOfBusiness getBusinessType() {
-		return businessType;
-	}
-
-	public void setBusinessType(TypeOfBusiness businessType) {
-		this.businessType = businessType;
-	}
-
+	
 	public Calendar getStartDate() {
 		return startDate;
 	}
@@ -45,7 +37,6 @@ public class Filter {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((businessType == null) ? 0 : businessType.hashCode());
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		return result;
@@ -60,11 +51,6 @@ public class Filter {
 		if (getClass() != obj.getClass())
 			return false;
 		Filter other = (Filter) obj;
-		if (businessType == null) {
-			if (other.businessType != null)
-				return false;
-		} else if (!businessType.equals(other.businessType))
-			return false;
 		if (endDate == null) {
 			if (other.endDate != null)
 				return false;
@@ -77,5 +63,6 @@ public class Filter {
 			return false;
 		return true;
 	}
+
 
 }

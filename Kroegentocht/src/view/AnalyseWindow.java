@@ -35,6 +35,7 @@ import model.ModelBase;
 import model.TypeOfBusiness;
 import model.Visit;
 import services.DataAnalyseService;
+import services.GenericDataService;
 import services.events.DataChangedEvent;
 import services.events.DataChangedEventFiringService;
 import services.events.DataChangedEventFiringSource;
@@ -53,8 +54,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataChangedEvent<Visit> {
-	
-	
+
 	@InjectLogger Logger logger;
 	
 	private static final long serialVersionUID = 1L;
@@ -70,13 +70,20 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 
 	private DataChangedEventFiringService<Visit> visitChangedService;
 
+	private GenericDataService<TypeOfBusiness> tobDataService;
+
 	@Inject
-	public AnalyseWindow(DataAnalyseService analyseService, DataChangedEventFiringService<Visit> visitChanged) {
+	public AnalyseWindow(DataAnalyseService analyseService
+			, DataChangedEventFiringService<Visit> visitChanged
+			, GenericDataService<TypeOfBusiness> tobDataService) {
 		super("Analyse");
-		init();
+		
 		
 		this.analyseService = analyseService;
 		this.visitChangedService = visitChanged;
+		this.tobDataService = tobDataService;
+		
+		init();
 	}
 	
 	public void Show() {
@@ -96,12 +103,6 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 	private void init() {
 		setBounds(100, 100, 450, 300);
 		setResizable(true);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Invoer");
-		menuBar.add(mntmNewMenuItem);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -205,26 +206,6 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 		gbc_dateChooser_1.gridy = 3;
 		panel_left.add(this.eindDatePicker, gbc_dateChooser_1);
 		
-		JLabel lblTypeZaak = new JLabel("Type zaak");
-		GridBagConstraints gbc_lblTypeZaak = new GridBagConstraints();
-		gbc_lblTypeZaak.insets = new Insets(0, 0, 5, 0);
-		gbc_lblTypeZaak.gridx = 0;
-		gbc_lblTypeZaak.gridy = 4;
-		panel_left.add(lblTypeZaak, gbc_lblTypeZaak);
-		
-		this.comboBox = new JComboBox<TypeOfBusiness>();
-		comboBox.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
-				CalcResult();
-			}
-		});
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 0;
-		gbc_comboBox.gridy = 5;
-		panel_left.add(comboBox, gbc_comboBox);
-		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -246,9 +227,9 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 	
 	private void CalcResult() {
 		try {
+			logger.info("Calculating analyse fields");
 			//Create filter
 			Filter f = new Filter();
-			f.setBusinessType((TypeOfBusiness)this.comboBox.getSelectedItem());
 			f.setStartDate(this.startDatePicker.getCalendar());
 			f.setEndDate(this.eindDatePicker.getCalendar());
 		

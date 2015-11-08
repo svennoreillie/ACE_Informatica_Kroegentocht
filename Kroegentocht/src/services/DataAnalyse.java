@@ -101,10 +101,7 @@ public class DataAnalyse implements DataAnalyseService {
 		if (filter.getEndDate() != null) {
 			list = list.filter(v -> v.getDate().compareTo(filter.getEndDate()) <= 0);
 		}
-		if (filter.getBusinessType() != null) {
-			list = list.filter(v -> v.getEstablishment() != null
-					&& v.getEstablishment().getBusinessType().equals(filter.getBusinessType()));
-		}
+		
 		return list;
 	}
 }
