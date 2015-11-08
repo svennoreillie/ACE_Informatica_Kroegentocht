@@ -239,11 +239,12 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 					Establishment establishment = new Establishment();
 					Address address = new Address();
 					try{
-						if(textOtherType.getText()== ""){
+						if(textOtherType.getText() == ""){
 							establishment.setBusinessType((TypeOfBusiness)cmbType.getSelectedItem());
 						}
 						else{
 							establishment.setBusinessType(new TypeOfBusiness (textOtherType.getText()));
+							dataTypeOfBusinessService.add(establishment.getBusinessType());
 						}
 						address.setStreet(textStreet.getText());
 						address.setNumber(textNumber.getText());
@@ -257,6 +258,7 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 						establishment.setAddress(address);
 						establishment.setName(textName.getText());
 						dataEstablishmentService.add(establishment);
+						
 						clearWindow();
 						Hide();
 						

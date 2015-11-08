@@ -67,6 +67,7 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 	private JLabel lblAverageMinutes;
 	private JLabel lblTotalConsumptions;
 	private JLabel lblLongestVisit;
+	private JLabel lblAantalBezoeken;
 
 	private DataChangedEventFiringService<Visit> visitChangedService;
 
@@ -127,6 +128,8 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 				RowSpec.decode("default:grow"),
 				RowSpec.decode("default:grow"),
 				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
+				RowSpec.decode("default:grow"),
 				RowSpec.decode("default:grow"),}));
 		
 		
@@ -153,6 +156,12 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 		
 		this.lblLongestVisit = new JLabel("0 minuten");
 		panel_right.add(this.lblLongestVisit, "3, 7, left, center");
+		
+		JLabel lblAantalBezoekenLabel = new JLabel("Aantal bezoeken");
+		panel_right.add(lblAantalBezoekenLabel, "1, 9, left, center");
+		
+		this.lblAantalBezoeken = new JLabel("0 bezoeken");
+		panel_right.add(this.lblAantalBezoeken, "3, 9, left, center");
 		
 
 		
@@ -237,7 +246,7 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 			this.lblAverageMinutes.setText(String.format("%d minuten", this.analyseService.getAverageMinutes(f)));
 			this.lblTotalConsumptions.setText(String.format("%d consumpties", this.analyseService.getTotalConsumptions(f)));
 			this.lblTotalMinutes.setText(String.format("%d minuten", this.analyseService.getTotalMinutes(f)));
-			
+			this.lblAantalBezoeken.setText(String.format("%d bezoeken", this.analyseService.getTotalVisits(f)));
 		} catch (DBMissingException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			logger.error(e.getMessage()); 
