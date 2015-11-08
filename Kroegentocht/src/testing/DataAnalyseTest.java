@@ -70,7 +70,7 @@ public class DataAnalyseTest {
 		Calendar date = Calendar.getInstance();
 		date.set(2015, 1, 2);
 		this.filter.setStartDate(date);
-		assertEquals(90, analyse.getAverageMinutes(filter));
+		assertEquals(60, analyse.getAverageMinutes(filter));
 	}
 
 	@Test
@@ -98,6 +98,19 @@ public class DataAnalyseTest {
 		date.set(2015, 1, 3);
 		this.filter.setStartDate(date);
 		assertEquals(60, analyse.getLongestVisit(filter));
+	}
+	
+	@Test
+	public void testGetTotalVisits() throws DBMissingException, DBException {
+		assertEquals(3, analyse.getTotalVisits(filter));
+	}
+	
+	@Test
+	public void testGetTotalVisitsFilterDate() throws DBMissingException, DBException {
+		Calendar date = Calendar.getInstance();
+		date.set(2015, 1, 2);
+		this.filter.setStartDate(date);
+		assertEquals(2, analyse.getTotalVisits(filter));
 	}
 
 }

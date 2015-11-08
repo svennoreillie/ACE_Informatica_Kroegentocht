@@ -8,6 +8,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -93,18 +94,27 @@ public class DataAnalyse implements DataAnalyseService {
 		return total;
 	}
 	
+	@Override
+	public int getTotalVisits(Filter filter) throws DBMissingException, DBException {
+		Stream<Visit> list = filterVisits(filter);
+		return (int) list.count();
+	}
+	
 	private Stream<Visit> filterVisits(Filter filter) throws DBMissingException, DBException {
 		Stream<Visit> list = this.visitService.getAll().parallelStream();
 		if (filter.getStartDate() != null) {
+			Calendar startDate = filter.getStartDate();
+			Calendar newStartDate = Calendar.getInstance();
+			newStartDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH), 0, 0, 1);
 			list = list.filter(v -> v.getDate().compareTo(filter.getStartDate()) >= 0);
 		}
 		if (filter.getEndDate() != null) {
-			list = list.filter(v -> v.getDate().compareTo(filter.getEndDate()) <= 0);
+			Calendar endDate = filter.getEndDate();
+			Calendar newEndDate = Calendar.getInstance();
+			newEndDate.set(endDate.get(Calendar.YEAR), endDate.get(Calendar.MONTH), endDate.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
+			list = list.filter(v -> v.getDate().compareTo(newEndDate) <= 0);
 		}
-		if (filter.getBusinessType() != null) {
-			list = list.filter(v -> v.getEstablishment() != null
-					&& v.getEstablishment().getBusinessType().equals(filter.getBusinessType()));
-		}
+		
 		return list;
 	}
 }

@@ -21,5 +21,7 @@ public interface DataAnalyseService {
 	int getTotalConsumptions(Filter filter) throws DBMissingException, DBException;
 
 	int getLongestVisit(Filter filter) throws DBMissingException, DBException;
+	
+	int getTotalVisits(Filter filter) throws DBMissingException, DBException;
 
 }
