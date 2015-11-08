@@ -107,7 +107,6 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
-			@SuppressWarnings("null")
 			public void actionPerformed(ActionEvent e) {
 				if(cmbEstablishment.getSelectedIndex() == -1 ||
 						dpDate.getDate() == null ||
@@ -132,11 +131,20 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 						} catch (DBMissingException e1) {	
 							e1.printStackTrace();
 						}
+						clearWindow();
 					} 
 					catch (DBException e1) {
 						e1.printStackTrace();
 					}
+					catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, "An error has occured by registering your Visit.\nThe visit is not saved!");
+					}
 				}
+			}
+
+			private void closeWindow() {
+				this.closeWindow();
+				
 			}
 		});
 		btnSave.setBounds(214, 181, 97, 25);
@@ -148,19 +156,11 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				this.clearWindow();
+				clearWindow();
 			}
-			
-			private void clearWindow() {
-				cmbEstablishment.setSelectedIndex(-1);
-				textDuration.setText("");
-				textConsumption.setText("");
-				dpDate.setCalendar(null);
-			}
-			
 		});
+		
 		btnClear.setBounds(323, 181, 97, 25);
 		getContentPane().add(btnClear);
 		
@@ -180,5 +180,12 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 
 	public void setCmbType(JComboBox<Establishment> cmbType) {
 		this.cmbEstablishment = cmbType;
+	}
+	
+	private void clearWindow() {
+		cmbEstablishment.setSelectedIndex(-1);
+		textDuration.setText("");
+		textConsumption.setText("");
+		dpDate.setCalendar(null);
 	}
 }
