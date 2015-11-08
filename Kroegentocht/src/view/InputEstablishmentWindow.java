@@ -58,13 +58,20 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 	@Inject
 	public InputEstablishmentWindow(GenericDataService <TypeOfBusiness> dataTypeOfBusiness
 			, GenericDataService <Establishment> dataEstablishment) throws Exception {
+		setTitle("Register Establishment");
 		this.dataTypeOfBusinessService = dataTypeOfBusiness;
 		this.dataEstablishmentService = dataEstablishment;
 		initialize();
 	}	
 	
 	public void Show() {
-		logger.debug("Show method called");
+		
+		try {
+			populateCmbType();
+		} catch (Exception e) {
+			logger.debug("Show method called");
+			e.printStackTrace();
+		}
 		setVisible(true);
 	}
 	
@@ -89,16 +96,6 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		cmbType = new JComboBox<TypeOfBusiness>();
 		cmbType.setBounds(12, 42, 176, 22);
 		getContentPane().add(cmbType);
-		try {
-			List <TypeOfBusiness> typeList = dataTypeOfBusinessService.getAll();
-			for (TypeOfBusiness typeOfBusiness : typeList) {
-				cmbType.addItem(typeOfBusiness);
-			}
-			
-		} 
-		catch (Exception e) {
-			throw e;
-		}
 		
 		JLabel lblOtherType = new JLabel("Other Type Of Business");
 		lblOtherType.setBounds(12, 77, 176, 16);
@@ -209,17 +206,7 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		JButton btnClear = new JButton("Clear All");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cmbType.setSelectedIndex(-1);
-				textOtherType.setText("");
-				textStreet.setText("");
-				textNumber.setText("");
-				textBox.setText("");
-				textCity.setText("");
-				textPhone.setText("");
-				textMobile.setText("");
-				textEmail.setText("");
-				textFax.setText("");
-				textName.setText("");
+				clearWindow();
 			}
 		});
 		btnClear.setBounds(306, 384, 176, 25);
@@ -268,8 +255,10 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 						address.setEmail(textEmail.getText());
 						address.setFax(textFax.getText());
 						establishment.setAddress(address);
-						dataEstablishmentService.add(establishment);
 						establishment.setName(textName.getText());
+						dataEstablishmentService.add(establishment);
+						clearWindow();
+						Hide();
 						
 					}
 					catch (Exception e1) {
@@ -279,6 +268,20 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 				}
 			}
 		});	
+	}
+
+	private void populateCmbType() throws Exception {
+		try {
+			cmbType.removeAllItems();
+			List <TypeOfBusiness> typeList = dataTypeOfBusinessService.getAll();
+			for (TypeOfBusiness typeOfBusiness : typeList) {
+				cmbType.addItem(typeOfBusiness);
+			}
+			
+		} 
+		catch (Exception e) {
+			throw e;
+		}
 	}
 
 	public JComboBox<TypeOfBusiness> getCmbType() {
@@ -292,5 +295,20 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 	private void clearCmbBox (boolean b){
 		cmbType.setSelectedIndex(-1);
 		cmbType.setEnabled(b);
+	}
+	
+	private void clearWindow (){
+		cmbType.setSelectedIndex(-1);
+		textOtherType.setText("");
+		textStreet.setText("");
+		textNumber.setText("");
+		textBox.setText("");
+		textCity.setText("");
+		textPhone.setText("");
+		textMobile.setText("");
+		textEmail.setText("");
+		textFax.setText("");
+		textName.setText("");
+		textZipCode.setText("");
 	}
 }
