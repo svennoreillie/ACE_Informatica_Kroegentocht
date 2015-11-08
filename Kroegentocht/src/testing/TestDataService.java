@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie
+ * @Team: Team13
+ * @Date: 08/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Junit voor TestData
+ */
+
 package testing;
 
 import java.util.ArrayList;

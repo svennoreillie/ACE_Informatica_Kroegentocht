@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreilli
+ * @Team: Team13
+ * @Date: 02/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Junit voor GenericData
+ */
+
 package testing;
 
 import static org.junit.Assert.*;

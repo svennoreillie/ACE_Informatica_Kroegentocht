@@ -1,5 +1,5 @@
 /**
- * @Autor: Mathy Paesen, Sven Noreillie, Peter Vervoort
+ * @Autor: Peter Vervoort
  * @Team: Team13
  * @Date: 08/11/2015
  * @Project: KroegenTocht
