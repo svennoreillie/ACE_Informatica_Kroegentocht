@@ -14,6 +14,8 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 
 import helpers.Log4JTypeListener;
+import helpers.factories.VisitFactory;
+import helpers.factories.VisitFactoryService;
 import model.*;
 import services.*;
 import services.classwrappers.AddressClassWrapper;
@@ -38,6 +40,7 @@ public class AppInjector extends AbstractModule {
     	bind(InputEstablismentWindowService.class).to(InputEstablishmentWindow.class);
     	bind(InputVisitWindowService.class).to(InputVisitWindow.class);
         bind(DataAnalyseService.class).to(DataAnalyse.class);
+        bind(VisitFactoryService.class).to(VisitFactory.class);
         
         bind(new TypeLiteral<ClassWrapperService<Visit>>(){}).to(VisitClassWrapper.class).asEagerSingleton();
         bind(new TypeLiteral<ClassWrapperService<Address>>(){}).to(AddressClassWrapper.class).asEagerSingleton();
@@ -53,6 +56,8 @@ public class AppInjector extends AbstractModule {
         bind(new TypeLiteral<StreamGeneratorService<Address>>(){}).to(new TypeLiteral<StreamGenerator<Address>>(){}).asEagerSingleton();
         bind(new TypeLiteral<StreamGeneratorService<Establishment>>(){}).to(new TypeLiteral<StreamGenerator<Establishment>>(){}).asEagerSingleton();
         bind(new TypeLiteral<StreamGeneratorService<TypeOfBusiness>>(){}).to(new TypeLiteral<StreamGenerator<TypeOfBusiness>>(){}).asEagerSingleton();
+        
+        
     }
 
 

@@ -12,8 +12,9 @@ import com.google.inject.Inject;
 
 import helpers.DBException;
 import helpers.DBMissingException;
+import helpers.enums.EnumEstablishmentName;
 import helpers.factories.EstablishmentFactory;
-import helpers.factories.VisitFactory;
+import helpers.factories.VisitFactoryService;
 import model.Establishment;
 import model.Visit;
 import services.GenericDataService;
@@ -23,24 +24,26 @@ import java.util.Random;
 public class StartUpDataControle {
 	private GenericDataService<Establishment> dataEstablishmentService;
 	private GenericDataService<Visit> visitService;
+	private VisitFactoryService visitFactory;
 
 	@Inject
-	public StartUpDataControle(GenericDataService<Establishment> dataEstablishment,GenericDataService<Visit> visit ) throws Exception {
+	public StartUpDataControle(GenericDataService<Establishment> dataEstablishment,GenericDataService<Visit> visit,VisitFactoryService visitFactory ) throws Exception {
 		this.dataEstablishmentService = dataEstablishment;
 		this.visitService = visit;
+		this.visitFactory = visitFactory;
 	}
 	
 	public void DataControle() throws DBMissingException, DBException{
 		if(dataEstablishmentService.getAll().isEmpty())
 		{
 			Random rand;
-			for(int i = 0; i < 5; i++){
+			for(int i = 0; i < EnumEstablishmentName.values().length; i++){
 				rand = new Random();
-				dataEstablishmentService.add(EstablishmentFactory.getEtablischement(rand));
+				dataEstablishmentService.add(EstablishmentFactory.getEtablischement(rand,i));
 			}
 			for (int i = 0; i < 15; i++) {
 				rand = new Random();
-				visitService.add(VisitFactory.getVisit(rand));
+				visitService.add(visitFactory.getVisit(rand));
 			}
 		}
 	}
