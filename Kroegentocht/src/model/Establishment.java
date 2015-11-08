@@ -15,6 +15,7 @@ public class Establishment extends ModelBase {
 
 	private TypeOfBusiness BusinessType;
 	private Address Address;
+	private String Name;
 
 	public TypeOfBusiness getBusinessType() {
 		return BusinessType;
@@ -28,6 +29,13 @@ public class Establishment extends ModelBase {
 	public void setAddress(Address address) {
 		Address = address;
 	}
+	public String getName(){
+		return Name;
+	}
+	public void setName(String name){
+		Name = name;
+	}
+	
 	
 	@Override
 	public int hashCode() {
@@ -58,5 +66,11 @@ public class Establishment extends ModelBase {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return this.Name;
+	}
+	
+	
 	
 }

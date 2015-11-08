@@ -15,13 +15,15 @@ import model.TypeOfBusiness;
 
 public class EstablishmentFactory {
 
-	public static Establishment getEtablischement(Random rand){
+	public static Establishment getEtablischement(Random rand,int i){
 		Establishment establishment = new Establishment();
 		establishment.setAddress(AddressFactory.getAddress(rand));
 		TypeOfBusiness typeOfBusiness = new TypeOfBusiness();
 		EnumTypeOfBusiness enumType = EnumTypeOfBusiness.values()[rand.nextInt(EnumTypeOfBusiness.values().length)];
 		typeOfBusiness.setType(enumType.getTypeOfBusiness());
 		establishment.setBusinessType(typeOfBusiness);
+		EnumEstablishmentName enumName = EnumEstablishmentName.values()[i];
+		establishment.setName(enumName.toString());
 		return establishment;
 	}
 }
