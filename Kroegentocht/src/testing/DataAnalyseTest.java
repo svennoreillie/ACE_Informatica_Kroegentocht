@@ -1,3 +1,11 @@
+/**
+ * @Autor: Sven Noreillie, Peter Vervoort
+ * @Team: Team13
+ * @Date: 02/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Junit voor DataAnalyse
+ */
+
 package testing;
 
 import static org.junit.Assert.*;

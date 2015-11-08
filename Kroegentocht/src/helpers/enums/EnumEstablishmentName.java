@@ -1,3 +1,11 @@
+/**
+ * @Autor: Peter Vervoort
+ * @Team: Team13
+ * @Date: 03/11/2015
+ * @Project: KroegenTocht
+ * @Purpose: Enum of establishment names, to be used in factories to initiate objects
+ */
+
 package helpers.enums;
 
 public enum EnumEstablishmentName {
