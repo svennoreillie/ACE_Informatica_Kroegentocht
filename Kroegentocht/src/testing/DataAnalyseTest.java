@@ -36,14 +36,7 @@ public class DataAnalyseTest {
 	
 	public DataAnalyseTest() {
 		analyse = new DataAnalyse(new TestDataService());
-		// GenericData<Visit>(new StreamGenerator<Visit>(new VisitClassWrapper()), new DataChangedEventFiringSource<Visit>()));
 		this.filter = new Filter();
-	}
-	
-
-	@Test
-	public void testDataAnalyse() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -60,18 +53,43 @@ public class DataAnalyseTest {
 	}
 
 	@Test
-	public void testGetAverageMinutes() {
-		fail("Not yet implemented");
+	public void testGetAverageMinutes() throws DBMissingException, DBException {
+		assertEquals(80, analyse.getAverageMinutes(filter));
+	}
+	
+	@Test
+	public void testGetAverageMinutesFilterDate() throws DBMissingException, DBException {
+		Calendar date = Calendar.getInstance();
+		date.set(2015, 1, 2);
+		this.filter.setStartDate(date);
+		assertEquals(90, analyse.getAverageMinutes(filter));
 	}
 
 	@Test
-	public void testGetTotalConsumptions() {
-		fail("Not yet implemented");
+	public void testGetTotalConsumptions() throws DBMissingException, DBException {
+		assertEquals(21, analyse.getTotalConsumptions(filter));
+	}
+	
+	@Test
+	public void testGetTotalConsumptionsFilterDate() throws DBMissingException, DBException {
+		Calendar date = Calendar.getInstance();
+		date.set(2015, 1, 2);
+		this.filter.setStartDate(date);
+		assertEquals(16, analyse.getTotalConsumptions(filter));
+		
 	}
 
 	@Test
-	public void testGetLongestVisit() {
-		fail("Not yet implemented");
+	public void testGetLongestVisit() throws DBMissingException, DBException {
+		assertEquals(120, analyse.getLongestVisit(filter));
+	}
+	
+	@Test
+	public void testGetLongestVisitFilterDate() throws DBMissingException, DBException {
+		Calendar date = Calendar.getInstance();
+		date.set(2015, 1, 3);
+		this.filter.setStartDate(date);
+		assertEquals(60, analyse.getLongestVisit(filter));
 	}
 
 }
