@@ -13,11 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.JButton;
 import com.google.inject.Inject;
 import com.toedter.calendar.JDateChooser;
 import helpers.DBException;
 import helpers.DBMissingException;
+import helpers.InjectLogger;
 import model.Establishment;
 import model.Visit;
 import services.GenericDataService;
@@ -31,6 +35,7 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 	/**
 	 * 
 	 */
+	@InjectLogger Logger logger;
 	private static final long serialVersionUID = 1L;
 	private JTextField textDuration;
 	private JTextField textConsumption;
@@ -46,10 +51,10 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		this.inputEstablishmentWindow = inputEstablishmentWindow;
 		initialize();
 	}
-
 	
 	public void Show() {
-		this.setVisible(true);
+		logger.debug("Show method called");
+		setVisible(true);
 	}
 
 

@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import com.toedter.calendar.JDateChooser;
 import helpers.DBException;
 import helpers.DBMissingException;
+import helpers.InjectLogger;
 import model.ModelBase;
 import model.TypeOfBusiness;
 import model.Visit;
@@ -51,8 +52,9 @@ import org.apache.logging.log4j.LogManager;
 
 public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataChangedEvent<Visit> {
 	
-	static Logger log = LogManager.getLogger(AnalyseWindow.class.getName());
-
+	
+	@InjectLogger Logger logger;
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private DataAnalyseService analyseService;
@@ -70,6 +72,11 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 		init();
 		
 		this.analyseService = analyseService;
+	}
+	
+	public void Show() {
+		logger.debug("Show method called");
+		setVisible(true);
 	}
 
 	private void init() {
@@ -221,10 +228,6 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 		this.startDatePicker.setCalendar(null);
 		this.eindDatePicker.setCalendar(null);
 	}
-
-	public void Show() {
-		setVisible(true);
-	}
 	
 	
 	private void CalcResult() {
@@ -242,13 +245,13 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 			
 		} catch (DBMissingException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			log.error(e.getMessage()); 
-			log.error(e.getStackTrace());
+			logger.error(e.getMessage()); 
+			logger.error(e.getStackTrace());
 			
 		} catch (DBException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			log.error(e.getMessage()); 
-			log.error(e.getStackTrace());
+			logger.error(e.getMessage()); 
+			logger.error(e.getStackTrace());
 		}
 	}
 

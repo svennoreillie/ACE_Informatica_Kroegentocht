@@ -17,7 +17,12 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import org.apache.logging.log4j.Logger;
+
 import com.google.inject.Inject;
+
+import helpers.InjectLogger;
 import model.Address;
 import model.Establishment;
 import model.TypeOfBusiness;
@@ -32,6 +37,8 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 	/**
 	 * 
 	 */
+	@InjectLogger Logger logger;
+	
 	private static final long serialVersionUID = 1L;
 	private JTextField textOtherType;
 	private JTextField textStreet;
@@ -46,6 +53,7 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 	private JComboBox<TypeOfBusiness> cmbType;
 	private GenericDataService<TypeOfBusiness> dataTypeOfBusinessService;
 	private GenericDataService<Establishment> dataEstablishmentService;
+	private JTextField textName;
 	
 	@Inject
 	public InputEstablishmentWindow(GenericDataService <TypeOfBusiness> dataTypeOfBusiness
@@ -54,8 +62,9 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		this.dataEstablishmentService = dataEstablishment;
 		initialize();
 	}	
-
+	
 	public void Show() {
+		logger.debug("Show method called");
 		setVisible(true);
 	}
 	
@@ -157,38 +166,38 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		textCity.setColumns(10);
 		
 		JLabel lblPhone = new JLabel("Phone");
-		lblPhone.setBounds(306, 13, 176, 16);
+		lblPhone.setBounds(306, 77, 176, 16);
 		getContentPane().add(lblPhone);
 		
 		textPhone = new JTextField();
-		textPhone.setBounds(306, 42, 176, 22);
+		textPhone.setBounds(306, 106, 176, 22);
 		getContentPane().add(textPhone);
 		textPhone.setColumns(10);
 		
 		JLabel lblMobile = new JLabel("Mobile phone");
-		lblMobile.setBounds(306, 77, 176, 16);
+		lblMobile.setBounds(306, 141, 176, 16);
 		getContentPane().add(lblMobile);
 		
 		textMobile = new JTextField();
-		textMobile.setBounds(306, 106, 176, 22);
+		textMobile.setBounds(306, 170, 176, 22);
 		getContentPane().add(textMobile);
 		textMobile.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(306, 141, 176, 16);
+		lblEmail.setBounds(306, 205, 176, 16);
 		getContentPane().add(lblEmail);
 		
 		textEmail = new JTextField();
-		textEmail.setBounds(306, 170, 176, 22);
+		textEmail.setBounds(306, 234, 176, 22);
 		getContentPane().add(textEmail);
 		textEmail.setColumns(10);
 		
 		JLabel lblFax = new JLabel("Fax");
-		lblFax.setBounds(306, 205, 176, 16);
+		lblFax.setBounds(306, 269, 176, 16);
 		getContentPane().add(lblFax);
 		
 		textFax = new JTextField();
-		textFax.setBounds(306, 234, 176, 22);
+		textFax.setBounds(306, 294, 176, 22);
 		getContentPane().add(textFax);
 		textFax.setColumns(10);
 		
@@ -205,21 +214,32 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 				textMobile.setText("");
 				textEmail.setText("");
 				textFax.setText("");
+				textName.setText("");
 			}
 		});
-		btnClear.setBounds(306, 307, 176, 25);
+		btnClear.setBounds(306, 384, 176, 25);
 		getContentPane().add(btnClear);
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(306, 357, 176, 25);
+		btnSave.setBounds(306, 421, 176, 25);
 		getContentPane().add(btnSave);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setBounds(306, 13, 56, 16);
+		getContentPane().add(lblName);
+		
+		textName = new JTextField();
+		textName.setBounds(306, 42, 116, 22);
+		getContentPane().add(textName);
+		textName.setColumns(10);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
 				if(textStreet.getText()==null || 
 						textNumber.getText() == null ||
 						textZipCode.getText() == null ||
 						textCity.getText() == null || 
-						(cmbType.getSelectedIndex() == -1 && textOtherType.getText().equals(""))
+						(cmbType.getSelectedIndex() == -1 && textOtherType.getText().equals("")) ||
+						textName.getText() == null
 						){
 					JOptionPane.showMessageDialog(null, "One or more of the requiered fields is not completed.\nThe establishment is not saved!");	
 				}
@@ -244,6 +264,7 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 						address.setFax(textFax.getText());
 						establishment.setAddress(address);
 						dataEstablishmentService.add(establishment);
+						establishment.setName(textName.getText());
 						
 					}
 					catch (Exception e1) {
