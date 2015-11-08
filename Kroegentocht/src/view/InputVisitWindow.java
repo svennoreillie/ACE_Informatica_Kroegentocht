@@ -8,9 +8,9 @@
 
 package view;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -104,26 +104,33 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 		btnSave.addActionListener(new ActionListener() {
 			@SuppressWarnings("null")
 			public void actionPerformed(ActionEvent e) {
-				
-				try{
-					Visit visit = new Visit();
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(dpDate.getDate());
-					visit.setDate(cal);
-					visit.setDurationMinutes(Integer.parseInt(textDuration.getText()));
-					visit.setAmountOfConsumptions(Integer.parseInt(textConsumption.getText()));
-					visit.setEstablishment((Establishment)cmbEstablishment.getSelectedItem());
-					GenericDataService <Visit> datavisit = null;
-					try {
-						datavisit.add(visit);
-					} catch (DBMissingException e1) {
-						// TODO Auto-generated catch block
+				if(cmbEstablishment.getSelectedIndex() == -1 ||
+						dpDate.getDate() == null ||
+						textDuration.getText() == "" ||
+						textConsumption.getText() == ""
+					)
+				{
+					JOptionPane.showMessageDialog(null, "One or more of the requiered fields is not completed.\nThe visit is not saved!");	
+				}
+				else{
+					try{
+						Visit visit = new Visit();
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(dpDate.getDate());
+						visit.setDate(cal);
+						visit.setDurationMinutes(Integer.parseInt(textDuration.getText()));
+						visit.setAmountOfConsumptions(Integer.parseInt(textConsumption.getText()));
+						visit.setEstablishment((Establishment)cmbEstablishment.getSelectedItem());
+						GenericDataService <Visit> datavisit = null;
+						try {
+							datavisit.add(visit);
+						} catch (DBMissingException e1) {	
+							e1.printStackTrace();
+						}
+					} 
+					catch (DBException e1) {
 						e1.printStackTrace();
 					}
-				} 
-				catch (DBException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 		});

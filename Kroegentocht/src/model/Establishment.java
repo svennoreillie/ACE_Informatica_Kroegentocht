@@ -10,6 +10,13 @@ package model;
 
 public class Establishment extends ModelBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2149782377134976844L;
+	/**
+	 * 
+	 */
 	private TypeOfBusiness BusinessType;
 	private Address Address;
 
@@ -55,5 +62,11 @@ public class Establishment extends ModelBase {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Establishment " + this.BusinessType;
+	}
+	
+	
 	
 }

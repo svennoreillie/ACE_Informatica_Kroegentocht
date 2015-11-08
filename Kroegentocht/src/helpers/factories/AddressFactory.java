@@ -34,9 +34,6 @@ public class AddressFactory {
 				EnumLastName.values()[rand.nextInt(EnumLastName.values().length)]+
 				"@gmail.com"
 				);
-		// TO-DO:
-		// address.setMobilePhone();
-		// address.setfax();
 		return address;
 	}
 }
