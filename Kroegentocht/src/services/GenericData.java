@@ -20,11 +20,14 @@ import java.nio.file.Paths;
 
 import java.util.*;
 
+import org.apache.logging.log4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import helpers.DBException;
 import helpers.DBMissingException;
+import helpers.InjectLogger;
 import helpers.MagicStrings;
 import model.Address;
 import model.ModelBase;
@@ -38,6 +41,8 @@ public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 	private List<T> internalList;
 	private StreamGeneratorService<T> streamService;
 	private DataChangedEventFiringService<T> dataEventFiringSource;
+	
+	@InjectLogger Logger logger;
 	
 	@Inject
 	public GenericData(StreamGeneratorService<T> streamService, DataChangedEventFiringService<T> firingService) {
