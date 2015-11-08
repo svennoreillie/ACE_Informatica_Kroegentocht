@@ -68,6 +68,11 @@ public class InputEstablishmentWindow extends JFrame implements InputEstablismen
 		setVisible(true);
 	}
 	
+	public void Hide() {
+		logger.debug("Hide method called");
+		setVisible(false);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 * @throws Exception 

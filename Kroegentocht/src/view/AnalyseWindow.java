@@ -36,6 +36,8 @@ import model.TypeOfBusiness;
 import model.Visit;
 import services.DataAnalyseService;
 import services.events.DataChangedEvent;
+import services.events.DataChangedEventFiringService;
+import services.events.DataChangedEventFiringSource;
 import services.helpers.Filter;
 import com.jgoodies.forms.layout.FormLayout;
 import com.google.inject.Inject;
@@ -66,17 +68,29 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 	private JLabel lblTotalConsumptions;
 	private JLabel lblLongestVisit;
 
+	private DataChangedEventFiringService<Visit> visitChangedService;
+
 	@Inject
-	public AnalyseWindow(DataAnalyseService analyseService) {
+	public AnalyseWindow(DataAnalyseService analyseService, DataChangedEventFiringService<Visit> visitChanged) {
 		super("Analyse");
 		init();
 		
 		this.analyseService = analyseService;
+		this.visitChangedService = visitChanged;
 	}
 	
 	public void Show() {
 		logger.debug("Show method called");
 		setVisible(true);
+		
+		this.visitChangedService.addListener(this);
+	}
+	
+	public void Hide() {
+		logger.debug("Hide method called");
+		setVisible(false);
+		
+		this.visitChangedService.removeListener(this);
 	}
 
 	private void init() {

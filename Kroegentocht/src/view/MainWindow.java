@@ -47,6 +47,9 @@ public class MainWindow extends JFrame implements MainWindowService {
 		logger.debug("Show method called");
 		setVisible(true);
 	}
+	
+	public void Hide() {
+	}
 
 	/**
 	 * Initialize the contents of the frame.
