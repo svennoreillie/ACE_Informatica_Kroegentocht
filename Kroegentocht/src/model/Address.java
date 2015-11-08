@@ -9,6 +9,11 @@
 package model;
 
 public class Address extends ModelBase {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7843573622258149279L;
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

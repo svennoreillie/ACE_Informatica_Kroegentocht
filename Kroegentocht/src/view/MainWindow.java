@@ -27,7 +27,6 @@ import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame implements MainWindowService {
 
-	private static final long serialVersionUID = 1L;
 	@InjectLogger Logger logger;
 	private WindowService analyseWindow;
 	private InputVisitWindowService inputVisitWindow;

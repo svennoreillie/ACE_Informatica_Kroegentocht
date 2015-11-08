@@ -29,16 +29,20 @@ import helpers.MagicStrings;
 import model.Address;
 import model.ModelBase;
 import services.classwrappers.ClassWrapperService;
+import services.events.DataChangedEventFiringService;
+import services.events.DataChangedEventFiringSource;
 
 @Singleton
 public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 
 	private List<T> internalList;
 	private StreamGeneratorService<T> streamService;
+	private DataChangedEventFiringService<T> dataEventFiringSource;
 	
 	@Inject
-	public GenericData(StreamGeneratorService<T> streamService) {
+	public GenericData(StreamGeneratorService<T> streamService, DataChangedEventFiringService<T> firingService) {
 		this.streamService = streamService;
+		this.dataEventFiringSource = new DataChangedEventFiringSource<T>();
 	}
 
 	@Override
@@ -77,6 +81,8 @@ public class GenericData<T extends ModelBase> implements GenericDataService<T> {
 		if (!tobList.contains(entity)) {
 			tobList.add(entity);
 			writeDB();
+			//Fire event
+			dataEventFiringSource.fireAdded(entity);
 		}
 	}
 

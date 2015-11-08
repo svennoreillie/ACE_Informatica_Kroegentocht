@@ -10,6 +10,11 @@ package model;
 
 public class Establishment extends ModelBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4465425155192408192L;
+	
 	private TypeOfBusiness BusinessType;
 	private Address Address;
 

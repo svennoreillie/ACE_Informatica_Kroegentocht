@@ -10,6 +10,10 @@ package model;
 
 public class TypeOfBusiness extends ModelBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8689410206194924971L;
 	private String Type;
 
 	public String getType() {
