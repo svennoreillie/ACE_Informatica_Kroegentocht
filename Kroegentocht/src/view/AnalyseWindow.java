@@ -240,7 +240,7 @@ public class AnalyseWindow extends JFrame implements AnalyseWindowService, DataC
 		
 			this.lblLongestVisit.setText(String.format("%d minuten", this.analyseService.getLongestVisit(f)));
 			this.lblAverageMinutes.setText(String.format("%d minuten", this.analyseService.getAverageMinutes(f)));
-			this.lblTotalConsumptions.setText(String.format("%d minuten", this.analyseService.getTotalConsumptions(f)));
+			this.lblTotalConsumptions.setText(String.format("%d consumpties", this.analyseService.getTotalConsumptions(f)));
 			this.lblTotalMinutes.setText(String.format("%d minuten", this.analyseService.getTotalMinutes(f)));
 			
 		} catch (DBMissingException e) {
