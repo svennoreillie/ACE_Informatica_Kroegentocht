@@ -137,6 +137,7 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 							e1.printStackTrace();
 						}
 						clearWindow();
+						Hide();
 					} 
 					catch (DBException e1) {
 						e1.printStackTrace();
@@ -147,10 +148,6 @@ public class InputVisitWindow extends JFrame implements InputVisitWindowService 
 				}
 			}
 
-			private void closeWindow() {
-				this.closeWindow();
-				
-			}
 		});
 		btnSave.setBounds(214, 181, 97, 25);
 		getContentPane().add(btnSave);
